@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧟 Zombie Engine - Undead Game Framework</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- 🧟‍♂️ The Apocalyptic Game Canvas -->
+    <div class="game-container">
+        <header class="game-header">
+            <h1>🧟 Zombie Engine</h1>
+            <div class="game-stats">
+                <span id="fps">FPS: 0</span>
+                <span id="entities">Entities: 0</span>
+            </div>
+        </header>
+
+        <!-- 🎮 Game canvas where the horror unfolds -->
+        <canvas id="gameCanvas" width="800" height="600">
+            Your browser doesn't support the undead...
+        </canvas>
+
+        <!-- 🎮 Game controls -->
+        <div class="controls">
+            <button id="startButton">Start Apocalypse 🧟</button>
+            <button id="stopButton">Stop Engine 🛑</button>
+            <button id="resetButton">Reset World 🔄</button>
+        </div>
+
+        <!-- 💀 Debug info -->
+        <div class="debug-panel" id="debugPanel">
+            <h3>Debug Info</h3>
+            <pre id="debugInfo">Waiting for the undead...</pre>
+        </div>
+    </div>
+
+    <script type="module" src="../engine/GameEngineCore.js"></script>
+</body>
+</html>

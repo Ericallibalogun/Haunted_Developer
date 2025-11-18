@@ -1,0 +1,55 @@
+/* 👻 Ghost Chat - Haunted Styles */
+/* Where CSS meets the supernatural... */
+
+* {
+    /* 🕸️ Reset the mortal realm */
+}
+
+body {
+    /* 💀 Set the spooky atmosphere */
+}
+
+.haunted-container {
+    /* 🎃 Main container for the ghostly interface */
+}
+
+.ghost-header {
+    /* 🕯️ Header styling for the spirit realm */
+}
+
+.chat-window {
+    /* 👻 Where messages from beyond appear */
+}
+
+.message {
+    /* 💬 Individual message styling */
+}
+
+.message.user {
+    /* 🧑 Messages from the living */
+}
+
+.message.ghost {
+    /* 👻 Messages from the dead */
+}
+
+.typing-indicator {
+    /* 🦇 Animated typing indicator */
+}
+
+.input-area {
+    /* ⌨️ Where mortals type their messages */
+}
+
+#messageInput {
+    /* 📝 Text input field */
+}
+
+#sendButton {
+    /* 🕯️ Send button styling */
+}
+
+/* 🕸️ Spooky animations */
+@keyframes haunt {
+    /* TODO: Add ghostly animations */
+}

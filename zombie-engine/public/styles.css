@@ -1,0 +1,55 @@
+/* 🧟 Zombie Engine - Apocalyptic Styles */
+/* CSS for the undead game framework */
+
+* {
+    /* 🦴 Reset the living world */
+}
+
+body {
+    /* 💀 Set the apocalyptic atmosphere */
+}
+
+.game-container {
+    /* 🧟‍♂️ Main container for the game */
+}
+
+.game-header {
+    /* 🎮 Header with title and stats */
+}
+
+.game-stats {
+    /* 📊 Display FPS and entity count */
+}
+
+#gameCanvas {
+    /* 🎨 The canvas where zombies roam */
+}
+
+.controls {
+    /* 🎮 Game control buttons */
+}
+
+button {
+    /* 🔘 Button styling */
+}
+
+button:hover {
+    /* 👆 Hover effect for the living */
+}
+
+.debug-panel {
+    /* 🐛 Debug information display */
+}
+
+#debugInfo {
+    /* 📝 Monospace debug text */
+}
+
+/* 🧟 Apocalyptic animations */
+@keyframes shamble {
+    /* TODO: Add zombie-like animations */
+}
+
+@keyframes decay {
+    /* TODO: Add decay effects */
+}

@@ -1,0 +1,316 @@
+{
+  "name": "Ghost Chat Application",
+  "version": "1.0.0",
+  "description": "A haunted chatbot experience where users communicate with spirits from beyond",
+  "theme": "spooky-ghost",
+  "modules": [
+    {
+      "name": "ChatBotModule",
+      "path": "ghost-chat/src/ChatBotModule.js",
+      "responsibilities": [
+        "Process incoming messages from users",
+        "Generate contextual ghostly responses",
+        "Maintain conversation state and memory",
+        "Handle different types of user intents",
+        "Provide fallback responses for unknown queries"
+      ],
+      "interface": {
+        "constructor": {
+          "description": "Initialize the ghost's brain with response templates and state",
+          "parameters": []
+        },
+        "processMessage": {
+          "description": "Main entry point for handling user messages",
+          "parameters": [
+            {
+              "name": "message",
+              "type": "string",
+              "description": "Raw message from the user"
+            }
+          ],
+          "returns": {
+            "type": "Promise<string>",
+            "description": "Ghostly response to display"
+          }
+        },
+        "generateResponse": {
+          "description": "Create a spooky response based on parsed intent",
+          "parameters": [
+            {
+              "name": "parsedMessage",
+              "type": "object",
+              "description": "Parsed message with intent and keywords"
+            }
+          ],
+          "returns": {
+            "type": "string",
+            "description": "Generated response"
+          }
+        },
+        "canRespond": {
+          "description": "Check if the ghost understands the message",
+          "parameters": [
+            {
+              "name": "message",
+              "type": "string"
+            }
+          ],
+          "returns": {
+            "type": "boolean",
+            "description": "True if ghost can respond meaningfully"
+          }
+        }
+      },
+      "extensibility": [
+        "Add personality traits (friendly ghost, scary ghost, wise ghost)",
+        "Implement conversation history tracking",
+        "Add machine learning for better responses",
+        "Support multiple languages",
+        "Add emotion detection and appropriate responses",
+        "Implement context-aware responses based on previous messages"
+      ],
+      "implementation_notes": [
+        "Start with simple keyword-based responses",
+        "Use a response template system with placeholders",
+        "Add random variation to responses for natural feel",
+        "Include spooky vocabulary and ghost-themed language",
+        "Handle edge cases like empty messages or very long input"
+      ]
+    },
+    {
+      "name": "UIController",
+      "path": "ghost-chat/src/UIController.js",
+      "responsibilities": [
+        "Render messages in the chat window",
+        "Handle user input from the text field",
+        "Display typing indicators",
+        "Manage scroll behavior",
+        "Apply haunted animations and effects",
+        "Clear chat history when needed"
+      ],
+      "interface": {
+        "constructor": {
+          "description": "Bind to DOM elements and set up event listeners",
+          "parameters": []
+        },
+        "displayMessage": {
+          "description": "Add a message to the chat window",
+          "parameters": [
+            {
+              "name": "message",
+              "type": "string",
+              "description": "Message text to display"
+            },
+            {
+              "name": "sender",
+              "type": "string",
+              "description": "'user' or 'ghost'"
+            }
+          ],
+          "returns": {
+            "type": "void"
+          }
+        },
+        "showTypingIndicator": {
+          "description": "Display ghost typing animation",
+          "parameters": [],
+          "returns": {
+            "type": "void"
+          }
+        },
+        "hideTypingIndicator": {
+          "description": "Remove typing animation",
+          "parameters": [],
+          "returns": {
+            "type": "void"
+          }
+        },
+        "clearChat": {
+          "description": "Remove all messages from the chat window",
+          "parameters": [],
+          "returns": {
+            "type": "void"
+          }
+        },
+        "scrollToBottom": {
+          "description": "Scroll to show the latest message",
+          "parameters": [],
+          "returns": {
+            "type": "void"
+          }
+        }
+      },
+      "extensibility": [
+        "Add message timestamps",
+        "Implement message editing/deletion",
+        "Add rich media support (images, emojis)",
+        "Create custom ghost avatars",
+        "Add sound effects for messages",
+        "Implement message reactions",
+        "Add dark/light theme toggle"
+      ],
+      "implementation_notes": [
+        "Use CSS animations for smooth transitions",
+        "Ensure accessibility (ARIA labels, keyboard navigation)",
+        "Handle long messages with proper wrapping",
+        "Add fade-in animations for new messages",
+        "Use spooky fonts and colors consistently"
+      ]
+    },
+    {
+      "name": "MessageParser",
+      "path": "ghost-chat/src/MessageParser.js",
+      "responsibilities": [
+        "Parse and tokenize user messages",
+        "Extract intent from messages",
+        "Detect keywords and entities",
+        "Sanitize input to prevent XSS",
+        "Normalize text (lowercase, trim, etc.)"
+      ],
+      "interface": {
+        "constructor": {
+          "description": "Initialize parsing rules and keyword dictionaries",
+          "parameters": []
+        },
+        "parse": {
+          "description": "Break down message into analyzable components",
+          "parameters": [
+            {
+              "name": "message",
+              "type": "string"
+            }
+          ],
+          "returns": {
+            "type": "object",
+            "description": "Parsed message with tokens, intent, keywords"
+          }
+        },
+        "extractIntent": {
+          "description": "Determine what the user wants",
+          "parameters": [
+            {
+              "name": "message",
+              "type": "string"
+            }
+          ],
+          "returns": {
+            "type": "string",
+            "description": "Intent category (greeting, question, farewell, etc.)"
+          }
+        },
+        "sanitize": {
+          "description": "Clean message of malicious content",
+          "parameters": [
+            {
+              "name": "message",
+              "type": "string"
+            }
+          ],
+          "returns": {
+            "type": "string",
+            "description": "Sanitized message"
+          }
+        },
+        "detectKeywords": {
+          "description": "Find important words in the message",
+          "parameters": [
+            {
+              "name": "message",
+              "type": "string"
+            }
+          ],
+          "returns": {
+            "type": "array",
+            "description": "Array of detected keywords"
+          }
+        }
+      },
+      "extensibility": [
+        "Add natural language processing (NLP)",
+        "Implement sentiment analysis",
+        "Add spell checking and correction",
+        "Support multiple languages",
+        "Add entity recognition (names, places, dates)",
+        "Implement context-aware parsing"
+      ],
+      "implementation_notes": [
+        "Use regex for basic pattern matching",
+        "Create keyword dictionaries for common intents",
+        "Handle typos and variations gracefully",
+        "Escape HTML to prevent XSS attacks",
+        "Consider using a library like DOMPurify for sanitization"
+      ]
+    },
+    {
+      "name": "Theming",
+      "path": "ghost-chat/public/styles.css",
+      "responsibilities": [
+        "Maintain consistent spooky aesthetic",
+        "Provide smooth animations",
+        "Ensure responsive design",
+        "Support accessibility requirements",
+        "Create haunted visual effects"
+      ],
+      "design_tokens": {
+        "colors": {
+          "primary": "Dark purples and blacks",
+          "accent": "Ghostly whites and pale blues",
+          "text": "Light gray on dark backgrounds"
+        },
+        "fonts": {
+          "primary": "Creepy but readable font",
+          "monospace": "For code or debug info"
+        },
+        "animations": {
+          "haunt": "Floating/hovering effect",
+          "fade": "Smooth message appearance",
+          "pulse": "Typing indicator animation"
+        }
+      },
+      "extensibility": [
+        "Add theme variants (different ghost types)",
+        "Create seasonal themes (Halloween, Day of the Dead)",
+        "Add particle effects (floating spirits)",
+        "Implement CSS custom properties for easy theming",
+        "Add sound effects integration points"
+      ],
+      "implementation_notes": [
+        "Use CSS variables for easy theme switching",
+        "Ensure sufficient contrast for readability",
+        "Test on multiple screen sizes",
+        "Add prefers-reduced-motion support",
+        "Keep animations subtle to avoid distraction"
+      ]
+    }
+  ],
+  "integration": {
+    "flow": [
+      "User types message in UIController",
+      "UIController passes message to ChatBotModule",
+      "ChatBotModule uses MessageParser to analyze message",
+      "ChatBotModule generates response",
+      "UIController displays response with animations"
+    ],
+    "dependencies": {
+      "ChatBotModule": ["MessageParser"],
+      "UIController": ["ChatBotModule"],
+      "index.js": ["ChatBotModule", "UIController"]
+    }
+  },
+  "future_features": [
+    "Voice input/output for hands-free ghost communication",
+    "Multiple ghost personalities to chat with",
+    "Save conversation history to localStorage",
+    "Share conversations with friends",
+    "Easter eggs and hidden ghost responses",
+    "Integration with external APIs for weather, time, etc.",
+    "Multiplayer ghost chat rooms"
+  ],
+  "kiro_expansion_guide": {
+    "phase_1": "Implement basic keyword matching and simple responses",
+    "phase_2": "Add UI animations and typing indicators",
+    "phase_3": "Enhance parser with better intent detection",
+    "phase_4": "Add conversation memory and context",
+    "phase_5": "Implement advanced features (voice, themes, etc.)"
+  }
+}

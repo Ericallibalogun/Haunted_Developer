@@ -1,0 +1,628 @@
+{
+  "name": "Zombie Game Engine",
+  "version": "1.0.0",
+  "description": "A lightweight 2D game engine for creating undead experiences",
+  "theme": "apocalyptic-zombie",
+  "modules": [
+    {
+      "name": "GameEngineCore",
+      "path": "zombie-engine/engine/GameEngineCore.js",
+      "responsibilities": [
+        "Manage the main game loop",
+        "Coordinate all engine systems",
+        "Calculate delta time for smooth animation",
+        "Handle start/stop/pause functionality",
+        "Manage canvas and rendering context",
+        "Track FPS and performance metrics"
+      ],
+      "interface": {
+        "constructor": {
+          "description": "Initialize core engine properties",
+          "parameters": [],
+          "initializes": [
+            "isRunning: boolean",
+            "lastFrameTime: number",
+            "canvas: HTMLCanvasElement",
+            "context: CanvasRenderingContext2D",
+            "physics: Physics",
+            "spriteManager: SpriteManager",
+            "inputHandler: InputHandler"
+          ]
+        },
+        "init": {
+          "description": "Set up canvas and initialize all subsystems",
+          "parameters": [
+            {
+              "name": "canvasId",
+              "type": "string",
+              "description": "ID of the canvas element"
+            }
+          ],
+          "returns": {
+            "type": "void"
+          }
+        },
+        "gameLoop": {
+          "description": "Main loop called every frame via requestAnimationFrame",
+          "parameters": [
+            {
+              "name": "timestamp",
+              "type": "number",
+              "description": "High-resolution timestamp from RAF"
+            }
+          ],
+          "returns": {
+            "type": "void"
+          }
+        },
+        "start": {
+          "description": "Begin the game loop",
+          "parameters": [],
+          "returns": {
+            "type": "void"
+          }
+        },
+        "stop": {
+          "description": "Pause the game loop",
+          "parameters": [],
+          "returns": {
+            "type": "void"
+          }
+        },
+        "update": {
+          "description": "Update all game systems",
+          "parameters": [
+            {
+              "name": "deltaTime",
+              "type": "number",
+              "description": "Time elapsed since last frame in seconds"
+            }
+          ],
+          "returns": {
+            "type": "void"
+          }
+        },
+        "render": {
+          "description": "Draw everything to the canvas",
+          "parameters": [],
+          "returns": {
+            "type": "void"
+          }
+        }
+      },
+      "data_flow": [
+        "gameLoop receives timestamp",
+        "Calculate deltaTime from lastFrameTime",
+        "Call update(deltaTime) on all systems",
+        "Call render() to draw frame",
+        "Request next animation frame",
+        "Update performance metrics (FPS)"
+      ],
+      "extensibility": [
+        "Add scene management system",
+        "Implement state machine for game states",
+        "Add asset loading and management",
+        "Support multiple render layers",
+        "Add camera system for viewport control",
+        "Implement time scaling (slow motion, fast forward)",
+        "Add event system for game events"
+      ],
+      "implementation_notes": [
+        "Use requestAnimationFrame for smooth 60fps",
+        "Cap deltaTime to prevent spiral of death",
+        "Clear canvas each frame before rendering",
+        "Update systems in correct order (input -> physics -> sprites)",
+        "Handle window resize events",
+        "Add performance monitoring in debug mode"
+      ]
+    },
+    {
+      "name": "Physics",
+      "path": "zombie-engine/engine/Physics.js",
+      "responsibilities": [
+        "Simulate movement and velocity",
+        "Apply forces and gravity",
+        "Detect collisions between entities",
+        "Resolve collision responses",
+        "Manage physics properties of entities"
+      ],
+      "interface": {
+        "constructor": {
+          "description": "Initialize physics world",
+          "parameters": [],
+          "initializes": [
+            "gravity: number",
+            "entities: array",
+            "collisionPairs: array"
+          ]
+        },
+        "addEntity": {
+          "description": "Register entity for physics simulation",
+          "parameters": [
+            {
+              "name": "entity",
+              "type": "object",
+              "properties": {
+                "id": "string",
+                "x": "number",
+                "y": "number",
+                "vx": "number (velocity x)",
+                "vy": "number (velocity y)",
+                "mass": "number",
+                "width": "number",
+                "height": "number",
+                "isStatic": "boolean"
+              }
+            }
+          ],
+          "returns": {
+            "type": "void"
+          }
+        },
+        "removeEntity": {
+          "description": "Remove entity from physics",
+          "parameters": [
+            {
+              "name": "entityId",
+              "type": "string"
+            }
+          ],
+          "returns": {
+            "type": "void"
+          }
+        },
+        "update": {
+          "description": "Update physics for all entities",
+          "parameters": [
+            {
+              "name": "deltaTime",
+              "type": "number"
+            }
+          ],
+          "returns": {
+            "type": "void"
+          }
+        },
+        "applyForce": {
+          "description": "Apply force vector to entity",
+          "parameters": [
+            {
+              "name": "entityId",
+              "type": "string"
+            },
+            {
+              "name": "forceX",
+              "type": "number"
+            },
+            {
+              "name": "forceY",
+              "type": "number"
+            }
+          ],
+          "returns": {
+            "type": "void"
+          }
+        },
+        "checkCollision": {
+          "description": "AABB collision detection",
+          "parameters": [
+            {
+              "name": "entityA",
+              "type": "object"
+            },
+            {
+              "name": "entityB",
+              "type": "object"
+            }
+          ],
+          "returns": {
+            "type": "boolean"
+          }
+        },
+        "resolveCollision": {
+          "description": "Handle collision response",
+          "parameters": [
+            {
+              "name": "entityA",
+              "type": "object"
+            },
+            {
+              "name": "entityB",
+              "type": "object"
+            }
+          ],
+          "returns": {
+            "type": "void"
+          }
+        },
+        "setGravity": {
+          "description": "Set gravity constant",
+          "parameters": [
+            {
+              "name": "value",
+              "type": "number"
+            }
+          ],
+          "returns": {
+            "type": "void"
+          }
+        }
+      },
+      "data_flow": [
+        "update() called with deltaTime",
+        "Apply gravity to all non-static entities",
+        "Update velocities based on forces",
+        "Update positions based on velocities",
+        "Check all collision pairs",
+        "Resolve collisions if detected",
+        "Clear temporary forces"
+      ],
+      "extensibility": [
+        "Add different collision shapes (circles, polygons)",
+        "Implement spatial partitioning (quadtree) for performance",
+        "Add friction and drag",
+        "Support rotation and angular velocity",
+        "Add trigger zones (non-solid collision areas)",
+        "Implement raycasting",
+        "Add physics materials with different properties"
+      ],
+      "implementation_notes": [
+        "Start with simple AABB (axis-aligned bounding box) collision",
+        "Use semi-implicit Euler integration for stability",
+        "Separate collision detection from resolution",
+        "Consider using broad-phase/narrow-phase collision detection",
+        "Add collision layers/masks for selective collision"
+      ]
+    },
+    {
+      "name": "SpriteManager",
+      "path": "zombie-engine/engine/SpriteManager.js",
+      "responsibilities": [
+        "Manage all visual entities",
+        "Update sprite positions and states",
+        "Render sprites to canvas",
+        "Handle sprite animations",
+        "Manage sprite lifecycle (add/remove)",
+        "Sort sprites by render order"
+      ],
+      "interface": {
+        "constructor": {
+          "description": "Initialize sprite storage",
+          "parameters": [],
+          "initializes": [
+            "sprites: array",
+            "nextId: number"
+          ]
+        },
+        "addSprite": {
+          "description": "Add new sprite to the scene",
+          "parameters": [
+            {
+              "name": "sprite",
+              "type": "object",
+              "properties": {
+                "x": "number",
+                "y": "number",
+                "width": "number",
+                "height": "number",
+                "color": "string",
+                "image": "HTMLImageElement (optional)",
+                "zIndex": "number (render order)"
+              }
+            }
+          ],
+          "returns": {
+            "type": "string",
+            "description": "Generated sprite ID"
+          }
+        },
+        "removeSprite": {
+          "description": "Remove sprite from scene",
+          "parameters": [
+            {
+              "name": "spriteId",
+              "type": "string"
+            }
+          ],
+          "returns": {
+            "type": "void"
+          }
+        },
+        "update": {
+          "description": "Update all sprite states",
+          "parameters": [
+            {
+              "name": "deltaTime",
+              "type": "number"
+            }
+          ],
+          "returns": {
+            "type": "void"
+          }
+        },
+        "render": {
+          "description": "Draw all sprites to canvas",
+          "parameters": [
+            {
+              "name": "context",
+              "type": "CanvasRenderingContext2D"
+            }
+          ],
+          "returns": {
+            "type": "void"
+          }
+        },
+        "getSprite": {
+          "description": "Get sprite by ID",
+          "parameters": [
+            {
+              "name": "spriteId",
+              "type": "string"
+            }
+          ],
+          "returns": {
+            "type": "object|null"
+          }
+        },
+        "clearAll": {
+          "description": "Remove all sprites",
+          "parameters": [],
+          "returns": {
+            "type": "void"
+          }
+        }
+      },
+      "data_flow": [
+        "update() called with deltaTime",
+        "Update each sprite's animation frame",
+        "Update sprite positions (if animated)",
+        "render() called with canvas context",
+        "Sort sprites by zIndex",
+        "Draw each sprite to canvas"
+      ],
+      "extensibility": [
+        "Add sprite animation system (frame-based)",
+        "Support sprite sheets",
+        "Add particle system",
+        "Implement sprite pooling for performance",
+        "Add sprite effects (fade, scale, rotate)",
+        "Support multiple render layers",
+        "Add culling (don't render off-screen sprites)"
+      ],
+      "implementation_notes": [
+        "Start with simple colored rectangles",
+        "Add image support after basic rendering works",
+        "Sort by zIndex before rendering each frame",
+        "Use object pooling to avoid garbage collection",
+        "Consider using OffscreenCanvas for complex sprites"
+      ]
+    },
+    {
+      "name": "InputHandler",
+      "path": "zombie-engine/engine/InputHandler.js",
+      "responsibilities": [
+        "Capture keyboard input",
+        "Track mouse position and clicks",
+        "Provide input state queries",
+        "Handle input events",
+        "Support touch input (future)"
+      ],
+      "interface": {
+        "constructor": {
+          "description": "Initialize input state tracking",
+          "parameters": [],
+          "initializes": [
+            "keys: object (key -> boolean)",
+            "mouse: object {x, y, pressed, button}"
+          ]
+        },
+        "init": {
+          "description": "Set up event listeners",
+          "parameters": [
+            {
+              "name": "canvas",
+              "type": "HTMLCanvasElement",
+              "description": "Canvas element for mouse events"
+            }
+          ],
+          "returns": {
+            "type": "void"
+          }
+        },
+        "onKeyDown": {
+          "description": "Handle key press",
+          "parameters": [
+            {
+              "name": "event",
+              "type": "KeyboardEvent"
+            }
+          ],
+          "returns": {
+            "type": "void"
+          }
+        },
+        "onKeyUp": {
+          "description": "Handle key release",
+          "parameters": [
+            {
+              "name": "event",
+              "type": "KeyboardEvent"
+            }
+          ],
+          "returns": {
+            "type": "void"
+          }
+        },
+        "onMouseMove": {
+          "description": "Track mouse position",
+          "parameters": [
+            {
+              "name": "event",
+              "type": "MouseEvent"
+            }
+          ],
+          "returns": {
+            "type": "void"
+          }
+        },
+        "onMouseDown": {
+          "description": "Handle mouse press",
+          "parameters": [
+            {
+              "name": "event",
+              "type": "MouseEvent"
+            }
+          ],
+          "returns": {
+            "type": "void"
+          }
+        },
+        "onMouseUp": {
+          "description": "Handle mouse release",
+          "parameters": [
+            {
+              "name": "event",
+              "type": "MouseEvent"
+            }
+          ],
+          "returns": {
+            "type": "void"
+          }
+        },
+        "isKeyPressed": {
+          "description": "Check if key is currently down",
+          "parameters": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "Key code (e.g., 'ArrowUp', 'w')"
+            }
+          ],
+          "returns": {
+            "type": "boolean"
+          }
+        },
+        "getMousePosition": {
+          "description": "Get current mouse coordinates",
+          "parameters": [],
+          "returns": {
+            "type": "object",
+            "description": "{x: number, y: number}"
+          }
+        },
+        "reset": {
+          "description": "Clear all input states",
+          "parameters": [],
+          "returns": {
+            "type": "void"
+          }
+        }
+      },
+      "data_flow": [
+        "User presses key/mouse",
+        "Browser fires event",
+        "InputHandler captures and stores state",
+        "Game systems query input state during update",
+        "Input state persists until key/button released"
+      ],
+      "extensibility": [
+        "Add gamepad/controller support",
+        "Implement touch input for mobile",
+        "Add input mapping/rebinding",
+        "Support input combos (key sequences)",
+        "Add input buffering for fighting games",
+        "Implement gesture recognition",
+        "Add virtual joystick for mobile"
+      ],
+      "implementation_notes": [
+        "Prevent default browser behavior for game keys",
+        "Convert mouse coordinates to canvas space",
+        "Handle window focus/blur to reset input",
+        "Use event.code instead of event.key for consistency",
+        "Add preventDefault() to avoid scrolling on arrow keys"
+      ]
+    }
+  ],
+  "integration": {
+    "initialization_order": [
+      "Create GameEngineCore instance",
+      "Call init() with canvas ID",
+      "GameEngineCore creates Physics, SpriteManager, InputHandler",
+      "InputHandler.init() sets up event listeners",
+      "Call start() to begin game loop"
+    ],
+    "update_order": [
+      "InputHandler (already updated via events)",
+      "Game logic (user code)",
+      "Physics.update(deltaTime)",
+      "SpriteManager.update(deltaTime)"
+    ],
+    "render_order": [
+      "Clear canvas",
+      "SpriteManager.render(context)",
+      "Debug overlay (if enabled)"
+    ],
+    "dependencies": {
+      "GameEngineCore": ["Physics", "SpriteManager", "InputHandler"],
+      "Physics": [],
+      "SpriteManager": [],
+      "InputHandler": []
+    }
+  },
+  "ui_consistency": {
+    "theme": "apocalyptic-zombie",
+    "color_palette": {
+      "primary": "Dark greens and grays (decay)",
+      "accent": "Blood red and rust orange",
+      "background": "Dark, desaturated colors",
+      "text": "Light gray or off-white"
+    },
+    "fonts": {
+      "headers": "Bold, distressed font",
+      "body": "Clean, readable sans-serif",
+      "monospace": "For debug info and stats"
+    },
+    "visual_effects": {
+      "canvas_border": "Rough, decayed appearance",
+      "buttons": "Weathered, post-apocalyptic style",
+      "animations": "Shambling, jerky movements"
+    },
+    "debug_panel": {
+      "position": "Bottom or side of screen",
+      "style": "Monospace font, semi-transparent background",
+      "info_to_display": [
+        "FPS",
+        "Entity count",
+        "Physics bodies",
+        "Mouse position",
+        "Active keys"
+      ]
+    }
+  },
+  "future_features": [
+    "Scene management system",
+    "Asset loader for images and sounds",
+    "Particle system for effects",
+    "Camera system with zoom and pan",
+    "Tilemap support for levels",
+    "Audio system for sound effects and music",
+    "Save/load game state",
+    "Networking for multiplayer",
+    "Level editor",
+    "Animation timeline system"
+  ],
+  "kiro_expansion_guide": {
+    "phase_1": "Implement basic game loop and canvas rendering",
+    "phase_2": "Add simple physics (movement, basic collision)",
+    "phase_3": "Implement sprite rendering with colors",
+    "phase_4": "Add input handling for keyboard and mouse",
+    "phase_5": "Create a simple demo game (zombie survival)",
+    "phase_6": "Add advanced features (animations, particles, etc.)"
+  },
+  "performance_targets": {
+    "fps": "60 FPS stable",
+    "max_entities": "1000+ sprites without lag",
+    "collision_checks": "Optimize with spatial partitioning",
+    "memory": "Minimize garbage collection with object pooling"
+  }
+}
