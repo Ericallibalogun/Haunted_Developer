@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>👻 Haunted Developer - Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: linear-gradient(135deg, #1a0033 0%, #0d1b0d 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #9d4edd;
+            text-shadow: 0 0 20px #bb86fc;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #39ff14;
+            margin-bottom: 30px;
+            font-size: 1.2em;
+        }
+
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .demo-card {
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #9d4edd;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(157, 78, 221, 0.3);
+        }
+
+        .demo-card h2 {
+            color: #bb86fc;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8em;
+            margin-left: auto;
+        }
+
+        .status.alive {
+            background: #39ff14;
+            color: #000;
+        }
+
+        .status.skeleton {
+            background: #666;
+            color: #fff;
+        }
+
+        button {
+            background: #9d4edd;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-size: 1em;
+            margin: 5px;
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            background: #bb86fc;
+            box-shadow: 0 0 15px #bb86fc;
+        }
+
+        .output {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid #39ff14;
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 15px;
+            min-height: 100px;
+            max-height: 200px;
+            overflow-y: auto;
+            font-size: 0.9em;
+            line-height: 1.6;
+        }
+
+        .output-line {
+            margin: 5px 0;
+        }
+
+        .ghost-output {
+            color: #bb86fc;
+        }
+
+        .zombie-output {
+            color: #39ff14;
+        }
+
+        .system-output {
+            color: #ff6b6b;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid #9d4edd;
+            border-radius: 5px;
+            color: #e0e0e0;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .stat {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #666;
+        }
+
+        .stat-label {
+            color: #999;
+            font-size: 0.8em;
+        }
+
+        .stat-value {
+            color: #39ff14;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 5px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #39ff14, #9d4edd);
+            transition: width 0.3s;
+        }
+
+        .emoji {
+            font-size: 1.5em;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .pulsing {
+            animation: pulse 2s infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>👻 Haunted Developer 🧟</h1>
+        <p class="subtitle">Kiroween Hackathon - Live Demo</p>
+
+        <div class="demo-grid">
+            <!-- Resurrection Engine -->
+            <div class="demo-card">
+                <h2>
+                    <span class="emoji">⚡</span>
+                    Resurrection Engine
+                    <span class="status alive">ALIVE</span>
+                </h2>
+                <p>Central AI control system with heartbeat</p>
+                <button onclick="awakenEngine()">⚡ Awaken Engine</button>
+                <button onclick="shutdownEngine()">💀 Shutdown</button>
+                <div class="stats">
+                    <div class="stat">
+                        <div class="stat-label">Status</div>
+                        <div class="stat-value" id="engineStatus">Dormant</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-label">Heartbeats</div>
+                        <div class="stat-value" id="heartbeats">0</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-label">Time of Day</div>
+                        <div class="stat-value" id="timeOfDay">-</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-label">Emotions</div>
+                        <div class="stat-value" id="emotions">Neutral</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ghost Personality -->
+            <div class="demo-card">
+                <h2>
+                    <span class="emoji">👻</span>
+                    Ghost Personality
+                    <span class="status alive">ALIVE</span>
+                </h2>
+                <p>Emotional AI with night mode</p>
+                <input type="text" id="ghostInput" placeholder="Type a message to the ghost...">
+                <button onclick="talkToGhost()">💬 Send Message</button>
+                <button onclick="makeGhostWhisper()">👁️ Make Whisper</button>
+                <div class="output" id="ghostOutput"></div>
+                <div class="stat">
+                    <div class="stat-label">Current State</div>
+                    <div class="stat-value" id="ghostState">Curious</div>
+                </div>
+            </div>
+
+            <!-- Zombie AI -->
+            <div class="demo-card">
+                <h2>
+                    <span class="emoji">🧟</span>
+                    Zombie AI
+                    <span class="status alive">ALIVE</span>
+                </h2>
+                <p>Behavior system with decay</p>
+                <button onclick="updateZombie()">🔄 Update State</button>
+                <button onclick="makeSound()">🔊 Make Sound</button>
+                <button onclick="reviveZombie()">💊 Revive</button>
+                <div class="output" id="zombieOutput"></div>
+                <div class="stat">
+                    <div class="stat-label">Health</div>
+                    <div class="stat-value" id="zombieHealth">100</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="healthBar" style="width: 100%"></div>
+                    </div>
+                </div>
+                <div class="stat">
+                    <div class="stat-label">State</div>
+                    <div class="stat-value" id="zombieState">Idle</div>
+                </div>
+            </div>
+
+            <!-- Stitching System -->
+            <div class="demo-card">
+                <h2>
+                    <span class="emoji">🔗</span>
+                    Stitching System
+                    <span class="status alive">ALIVE</span>
+                </h2>
+                <p>Frankenstein module fusion</p>
+                <button onclick="stitchCreature()">🧟 Stitch Creature</button>
+                <button onclick="awakenCreature()">⚡ Awaken Creature</button>
+                <div class="output" id="stitchOutput"></div>
+                <div class="stat">
+                    <div class="stat-label">Creatures</div>
+                    <div class="stat-value" id="creatureCount">0</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="demo-card">
+            <h2>
+                <span class="emoji">📊</span>
+                System Log
+            </h2>
+            <div class="output" id="systemLog" style="max-height: 300px;"></div>
+        </div>
+    </div>
+
+    <script type="module">
+        // Import AI modules
+        import ResurrectionEngine from '../core/ResurrectionEngine.js';
+        import GhostPersonality from '../ai/GhostPersonality.js';
+        import ZombieAI from '../ai/ZombieAI.js';
+        import StitchingSystem from '../ai/StitchingSystem.js';
+
+        // Initialize systems
+        const engine = new ResurrectionEngine();
+        const ghost = new GhostPersonality();
+        const zombie = new ZombieAI({ x: 100, y: 100, vx: 0, vy: 0 });
+        const stitching = new StitchingSystem();
+
+        // Connect to engine
+        engine.connectGhostPersonality(ghost);
+        engine.connectZombieAI(zombie);
+        engine.connectStitchingSystem(stitching);
+
+        // Track state
+        let heartbeatCount = 0;
+        let currentCreature = null;
+
+        // Event listeners
+        engine.on('pulse', (data) => {
+            heartbeatCount++;
+            document.getElementById('heartbeats').textContent = heartbeatCount;
+            document.getElementById('timeOfDay').textContent = data.environment.timeOfDay;
+            
+            const emotions = Object.entries(data.emotions)
+                .filter(([_, v]) => v > 0.3)
+                .map(([k, _]) => k)
+                .join(', ') || 'Neutral';
+            document.getElementById('emotions').textContent = emotions;
+        });
+
+        engine.on('awakened', () => {
+            log('⚡ RESURRECTION ENGINE AWAKENED!', 'system');
+        });
+
+        // Global functions
+        window.awakenEngine = () => {
+            engine.awaken();
+            document.getElementById('engineStatus').textContent = 'ALIVE';
+            log('⚡ Engine awakened! Heartbeat started.', 'system');
+        };
+
+        window.shutdownEngine = () => {
+            engine.shutdown();
+            document.getElementById('engineStatus').textContent = 'Dead';
+            log('💀 Engine shut down.', 'system');
+        };
+
+        window.talkToGhost = () => {
+            const input = document.getElementById('ghostInput').value;
+            if (!input) return;
+            
+            const response = ghost.generateResponse(input);
+            addGhostOutput(`You: ${input}`);
+            addGhostOutput(`Ghost: ${response}`);
+            
+            document.getElementById('ghostState').textContent = ghost.state;
+            document.getElementById('ghostInput').value = '';
+            
+            log(`👻 Ghost responded in ${ghost.state} state`, 'ghost');
+        };
+
+        window.makeGhostWhisper = () => {
+            const whisper = ghost.whisper();
+            addGhostOutput(whisper);
+            log('👁️ Ghost whispered...', 'ghost');
+        };
+
+        window.updateZombie = () => {
+            zombie.pulse({});
+            const status = zombie.getStatus();
+            document.getElementById('zombieState').textContent = status.state;
+            document.getElementById('zombieHealth').textContent = Math.round(status.health);
+            document.getElementById('healthBar').style.width = status.health + '%';
+            
+            addZombieOutput(`State: ${status.state}, Health: ${Math.round(status.health)}`);
+            log(`🧟 Zombie updated: ${status.state}`, 'zombie');
+        };
+
+        window.makeSound = () => {
+            zombie.onSound(0.8);
+            addZombieOutput('🔊 Zombie heard sound! Detecting...');
+            log('🔊 Sound triggered zombie detection', 'zombie');
+        };
+
+        window.reviveZombie = () => {
+            zombie.revive(50);
+            document.getElementById('zombieHealth').textContent = Math.round(zombie.health);
+            document.getElementById('healthBar').style.width = zombie.health + '%';
+            addZombieOutput('💊 Zombie revived! +50 HP');
+            log('💊 Zombie revived', 'zombie');
+        };
+
+        window.stitchCreature = () => {
+            // Create simple modules
+            const memory = {
+                name: 'SimpleMemory',
+                store: (data) => console.log('Stored:', data),
+                retrieve: () => 'memory data',
+                compatibility: ['personality']
+            };
+
+            const personality = {
+                name: 'FriendlyPersonality',
+                respond: (input) => `Hello! ${input}`,
+                compatibility: ['memory']
+            };
+
+            stitching.registerMemoryOrgan(memory);
+            stitching.registerPersonalityOrgan(personality);
+
+            const parts = stitching.listAvailableParts();
+            const memoryId = parts.memory[0].id;
+            const personalityId = parts.personality[0].id;
+
+            currentCreature = stitching.stitchCreature('DemoMonster', [memoryId, personalityId]);
+            
+            addStitchOutput(`✅ Creature "${currentCreature.name}" stitched!`);
+            addStitchOutput(`Parts: ${currentCreature.parts.length}`);
+            document.getElementById('creatureCount').textContent = stitching.creatures.size;
+            
+            log('🔗 Creature stitched successfully', 'system');
+        };
+
+        window.awakenCreature = () => {
+            if (!currentCreature) {
+                addStitchOutput('❌ No creature to awaken! Stitch one first.');
+                return;
+            }
+
+            stitching.awakenCreature(currentCreature.id);
+            addStitchOutput(`⚡ ${currentCreature.name} is ALIVE!`);
+            log(`⚡ Creature awakened: ${currentCreature.name}`, 'system');
+        };
+
+        // Helper functions
+        function addGhostOutput(text) {
+            const output = document.getElementById('ghostOutput');
+            const line = document.createElement('div');
+            line.className = 'output-line ghost-output';
+            line.textContent = text;
+            output.appendChild(line);
+            output.scrollTop = output.scrollHeight;
+        }
+
+        function addZombieOutput(text) {
+            const output = document.getElementById('zombieOutput');
+            const line = document.createElement('div');
+            line.className = 'output-line zombie-output';
+            line.textContent = text;
+            output.appendChild(line);
+            output.scrollTop = output.scrollHeight;
+        }
+
+        function addStitchOutput(text) {
+            const output = document.getElementById('stitchOutput');
+            const line = document.createElement('div');
+            line.className = 'output-line';
+            line.textContent = text;
+            output.appendChild(line);
+            output.scrollTop = output.scrollHeight;
+        }
+
+        function log(text, type = 'system') {
+            const output = document.getElementById('systemLog');
+            const line = document.createElement('div');
+            line.className = `output-line ${type}-output`;
+            const timestamp = new Date().toLocaleTimeString();
+            line.textContent = `[${timestamp}] ${text}`;
+            output.appendChild(line);
+            output.scrollTop = output.scrollHeight;
+        }
+
+        // Initial log
+        log('🎃 Haunted Developer Demo Ready!', 'system');
+        log('👻 Ghost Chat, 🧟 Zombie Engine, and ⚡ Resurrection Core are loaded', 'system');
+        log('Click "Awaken Engine" to start the heartbeat!', 'system');
+    </script>
+</body>
+</html>
