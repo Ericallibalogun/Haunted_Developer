@@ -1,0 +1,55 @@
+{
+  "name": "Zombie AI Movement Specification",
+  "version": "1.0.0",
+  "module": "ai/ZombieAI.js",
+  "movement_vectors": {
+    "wander_speed": 20,
+    "chase_speed": 50,
+    "shamble_randomness": "±10 units per frame",
+    "direction_change_interval": "2000ms"
+  },
+  "attack_radius": {
+    "vision": 150,
+    "hearing": 200,
+    "attack": 30,
+    "lose_target_time": "5000ms"
+  },
+  "sound_vision_sensitivity": {
+    "sound_decay": 0.95,
+    "sound_threshold": 0.5,
+    "detection_chance": 0.8,
+    "night_vision_boost": 1.5
+  },
+  "state_machine": {
+    "idle": {
+      "behavior": "Stand still, occasional groan",
+      "transitions": ["wandering (10% chance)", "detecting (if target/sound)"]
+    },
+    "wandering": {
+      "behavior": "Random movement with direction changes",
+      "transitions": ["idle (5% chance)", "detecting (if target/sound)"]
+    },
+    "detecting": {
+      "behavior": "Look around, confirm target",
+      "transitions": ["chasing (if target confirmed)", "idle (if no target)"]
+    },
+    "chasing": {
+      "behavior": "Move toward target with shambling",
+      "transitions": ["attacking (in range)", "idle (lost target)"]
+    },
+    "attacking": {
+      "behavior": "Stop and attack",
+      "transitions": ["chasing (target escaped)"]
+    },
+    "decaying": {
+      "behavior": "Slow, weakened movement",
+      "transitions": ["dead (health <= 0)"]
+    }
+  },
+  "decay_mechanic": {
+    "decay_rate": "0.1 HP per second",
+    "decay_threshold": "30 HP triggers decay state",
+    "revive_amount": 50,
+    "max_health": 100
+  }
+}

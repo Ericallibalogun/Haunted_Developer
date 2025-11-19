@@ -1,0 +1,164 @@
+{
+  "name": "Resurrection Core Specification",
+  "version": "1.0.0",
+  "description": "Central AI control system that brings all modules to life",
+  "module": "core/ResurrectionEngine.js",
+  "states": {
+    "engine": ["dormant", "awakening", "alive", "pulsing", "shutting_down", "dead"],
+    "emotional": {
+      "fear": "0-1 scale, triggers fearful ghost responses",
+      "rage": "0-1 scale, triggers angry behaviors",
+      "curiosity": "0-1 scale, triggers inquisitive responses",
+      "mischief": "0-1 scale, triggers playful/tricky behaviors"
+    },
+    "environmental": {
+      "timeOfDay": ["witching", "dawn", "day", "dusk", "night"],
+      "moonPhase": ["new", "waxing", "full", "waning"],
+      "userActivity": ["idle", "typing", "moving", "interacting"],
+      "soundLevel": "0-1 scale"
+    }
+  },
+  "triggers": {
+    "time_based": {
+      "midnight": {
+        "event": "witching_hour_start",
+        "effect": "Ghost power multiplier x2, whisper probability 50%"
+      },
+      "3am": {
+        "event": "witching_hour_end",
+        "effect": "Return to normal power levels"
+      },
+      "full_moon": {
+        "event": "lunar_boost",
+        "effect": "All AI behaviors intensified"
+      }
+    },
+    "emotion_based": {
+      "fear_spike": {
+        "condition": "fear > 0.8",
+        "effect": "Ghost enters fearful state, zombies become more aggressive"
+      },
+      "rage_spike": {
+        "condition": "rage > 0.8",
+        "effect": "Ghost enters angry state, zombies attack more frequently"
+      },
+      "curiosity_spike": {
+        "condition": "curiosity > 0.7",
+        "effect": "Ghost asks questions, zombies investigate sounds"
+      }
+    },
+    "user_interaction": {
+      "message_sent": {
+        "effect": "Update emotional state based on message content"
+      },
+      "fast_typing": {
+        "effect": "Zombies hear sound, increase detection chance"
+      },
+      "idle_timeout": {
+        "condition": "no activity for 5 minutes",
+        "effect": "Ghost whispers, zombies wander"
+      }
+    }
+  },
+  "responses": {
+    "ghost_personality": {
+      "curious": "Asks questions, uses 'Ooooh', 'Interesting', 'Tell me more'",
+      "mischievous": "Playful, uses 'Hehe', 'Boo!', 'Gotcha'",
+      "fearful": "Scared, uses 'Oh no', 'Scary', 'Help'",
+      "angry": "Aggressive, uses 'RAWR', 'Grr', 'Enough!'",
+      "sleeping": "Tired, uses 'Zzz', 'Yawn', 'So tired'"
+    },
+    "zombie_behavior": {
+      "idle": "Stand still, occasional groan",
+      "wandering": "Random movement, shambling",
+      "detecting": "Look around, heightened senses",
+      "chasing": "Move toward target, shambling run",
+      "attacking": "Stop and attack, bite animation",
+      "decaying": "Slow movement, weakening"
+    }
+  },
+  "fusion_rules": {
+    "module_compatibility": {
+      "memory_personality": "Memory organ can connect to personality organ",
+      "nervous_reflex": "Nervous system can trigger reflex engine",
+      "personality_nervous": "Personality can send signals to nervous system"
+    },
+    "safety_guards": {
+      "max_modules": 10,
+      "compatibility_check": "Required before stitching",
+      "connection_validation": "Verify all connections work"
+    },
+    "injection_points": {
+      "memory_to_personality": "personality.setMemory(), personality.getMemory()",
+      "nervous_to_reflex": "nervous.triggerReflex()",
+      "all_to_nervous": "module.sendSignal()"
+    }
+  },
+  "heartbeat_system": {
+    "pulse_rate": "1000ms (1 second)",
+    "pulse_actions": [
+      "Update environmental factors",
+      "Decay emotional states (5% per pulse)",
+      "Update ghost personality state",
+      "Update zombie AI state",
+      "Check for special events",
+      "Emit pulse event"
+    ]
+  },
+  "event_system": {
+    "events": [
+      "awakened",
+      "pulse",
+      "emotionChanged",
+      "stateChanged",
+      "whisper",
+      "attack",
+      "shutdown"
+    ],
+    "listeners": "Map of event -> callback[]",
+    "emit": "Trigger all callbacks for event"
+  },
+  "api": {
+    "awaken": {
+      "description": "Bring the engine to life",
+      "returns": "void"
+    },
+    "pulse": {
+      "description": "Single heartbeat update",
+      "returns": "void"
+    },
+    "setEmotion": {
+      "parameters": ["emotion: string", "intensity: number (0-1)"],
+      "returns": "void"
+    },
+    "connectGhostPersonality": {
+      "parameters": ["ghostModule: GhostPersonality"],
+      "returns": "void"
+    },
+    "connectZombieAI": {
+      "parameters": ["zombieModule: ZombieAI"],
+      "returns": "void"
+    },
+    "connectStitchingSystem": {
+      "parameters": ["stitchingModule: StitchingSystem"],
+      "returns": "void"
+    },
+    "on": {
+      "parameters": ["event: string", "callback: function"],
+      "returns": "void"
+    },
+    "emit": {
+      "parameters": ["event: string", "data: object"],
+      "returns": "void"
+    },
+    "shutdown": {
+      "description": "Stop the engine",
+      "returns": "void"
+    }
+  },
+  "integration": {
+    "ghost_chat": "Connects to ChatBotModule for emotional responses",
+    "zombie_engine": "Connects to GameEngineCore for AI behaviors",
+    "frankenstein": "Connects to StitchingSystem for module fusion"
+  }
+}

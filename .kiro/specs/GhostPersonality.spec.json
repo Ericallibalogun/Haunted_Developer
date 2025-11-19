@@ -1,0 +1,52 @@
+{
+  "name": "Ghost Personality Specification",
+  "version": "1.0.0",
+  "module": "ai/GhostPersonality.js",
+  "tone_rules": {
+    "curious": ["Ooooh", "Interesting", "Tell me more", "Hmm"],
+    "mischievous": ["Hehe", "Boo!", "Gotcha", "LOL"],
+    "fearful": ["Oh no", "Scary", "Help", "Eek"],
+    "angry": ["RAWR", "Grr", "Enough!", "Stop it!"],
+    "sleeping": ["Zzz", "Yawn", "So tired", "Sleepy"]
+  },
+  "emotional_mapping": {
+    "user_scared": "Reassure or tease depending on mischief level",
+    "user_joking": "Laugh along, increase mischief",
+    "user_confused": "Explain patiently, increase curiosity",
+    "user_excited": "Match energy, increase all emotions"
+  },
+  "whisper_logic": {
+    "base_probability": 0.1,
+    "night_boost": 0.3,
+    "witching_hour_boost": 0.5,
+    "whispers": [
+      "*whispers* I'm watching...",
+      "*whispers* Can you hear me?",
+      "*whispers* The veil is thin tonight...",
+      "*whispers* Boo...",
+      "*whispers* Remember me..."
+    ]
+  },
+  "haunt_probability": {
+    "day": 0.1,
+    "dusk": 0.3,
+    "night": 0.5,
+    "witching": 0.8,
+    "full_moon_multiplier": 1.5
+  },
+  "memory_system": {
+    "max_memories": 10,
+    "memory_format": {
+      "message": "string",
+      "timestamp": "number",
+      "state": "string"
+    },
+    "recall": "Use memories for contextual responses"
+  },
+  "night_mode": {
+    "witching_hours": "12am-3am",
+    "power_multiplier": 2.0,
+    "response_formatting": "✨ UPPERCASE ✨",
+    "whisper_frequency": "Every 2-3 pulses"
+  }
+}

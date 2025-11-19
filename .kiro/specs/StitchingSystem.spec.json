@@ -1,0 +1,60 @@
+{
+  "name": "Stitching System Specification",
+  "version": "1.0.0",
+  "module": "ai/StitchingSystem.js",
+  "api_for_combining_modules": {
+    "registerMemoryOrgan": "Add memory module to available parts",
+    "registerPersonalityOrgan": "Add personality module to available parts",
+    "registerNervousSystem": "Add nervous system module to available parts",
+    "registerReflexEngine": "Add reflex module to available parts",
+    "stitchCreature": "Combine parts into new creature",
+    "awakenCreature": "Activate all modules in creature",
+    "destroyCreature": "Cleanup and remove creature",
+    "replacePart": "Hot-swap a module in living creature"
+  },
+  "input_output_rules": {
+    "input": {
+      "module": "Must have name, type, and optional compatibility array",
+      "parts": "Array of part IDs to stitch together"
+    },
+    "output": {
+      "creature": "Object with id, name, parts, state, createdAt",
+      "status": "Object with current state and part information"
+    }
+  },
+  "safety_guards": {
+    "max_modules_per_creature": 10,
+    "compatibility_check": "Validates modules can work together",
+    "connection_validation": "Ensures all injections succeed",
+    "error_handling": "Throws errors for invalid operations"
+  },
+  "body_part_types": {
+    "memory": {
+      "purpose": "Store and retrieve information",
+      "methods": ["store(data)", "retrieve()", "clear()"]
+    },
+    "personality": {
+      "purpose": "Define behavior and responses",
+      "methods": ["respond(input)", "setState(state)", "getTraits()"]
+    },
+    "nervous": {
+      "purpose": "Central signal processing hub",
+      "methods": ["process(signal)", "broadcast(message)"]
+    },
+    "reflex": {
+      "purpose": "Automatic reactions to stimuli",
+      "methods": ["react(stimulus)", "setThreshold(value)"]
+    }
+  },
+  "connection_injection": {
+    "memory_to_personality": "personality.setMemory = memory.store, personality.getMemory = memory.retrieve",
+    "nervous_to_reflex": "nervous.triggerReflex = reflex.react",
+    "all_to_nervous": "part.sendSignal = nervous.process"
+  },
+  "compatibility_matrix": {
+    "memory": ["personality", "nervous"],
+    "personality": ["memory", "nervous", "reflex"],
+    "nervous": ["all"],
+    "reflex": ["nervous", "personality"]
+  }
+}
