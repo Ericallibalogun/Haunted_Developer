@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎃 Haunted Developer - Grand Finale Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: linear-gradient(135deg, #1a0033 0%, #0d1b0d 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #9d4edd;
+            text-shadow: 0 0 30px #bb86fc;
+            margin-bottom: 10px;
+            font-size: 3em;
+            animation: pulse 3s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { text-shadow: 0 0 30px #bb86fc; }
+            50% { text-shadow: 0 0 50px #bb86fc, 0 0 80px #9d4edd; }
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #39ff14;
+            margin-bottom: 30px;
+            font-size: 1.5em;
+        }
+
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .demo-card {
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid #9d4edd;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 0 30px rgba(157, 78, 221, 0.4);
+            transition: all 0.3s;
+        }
+
+        .demo-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 40px rgba(157, 78, 221, 0.6);
+        }
+
+        .demo-card h2 {
+            color: #bb86fc;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5em;
+        }
+
+        .costume-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .costume-btn {
+            background: linear-gradient(135deg, #9d4edd, #bb86fc);
+            color: #fff;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .costume-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px #bb86fc;
+        }
+
+        .costume-btn.active {
+            background: linear-gradient(135deg, #39ff14, #00ff00);
+            box-shadow: 0 0 25px #39ff14;
+        }
+
+        button {
+            background: #9d4edd;
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-size: 1em;
+            margin: 5px;
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            background: #bb86fc;
+            box-shadow: 0 0 20px #bb86fc;
+            transform: translateY(-2px);
+        }
+
+        .output {
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid #39ff14;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 15px;
+            min-height: 120px;
+            max-height: 250px;
+            overflow-y: auto;
+            font-size: 0.95em;
+            line-height: 1.8;
+        }
+
+        .output-line {
+            margin: 8px 0;
+            padding: 5px;
+            border-left: 3px solid transparent;
+            padding-left: 10px;
+        }
+
+        .ghost-output {
+            color: #bb86fc;
+            border-left-color: #bb86fc;
+        }
+
+        .zombie-output {
+            color: #39ff14;
+            border-left-color: #39ff14;
+        }
+
+        .system-output {
+            color: #ff6b6b;
+            border-left-color: #ff6b6b;
+        }
+
+        .costume-output {
+            color: #ffa500;
+            border-left-color: #ffa500;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #9d4edd;
+            border-radius: 10px;
+            color: #e0e0e0;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+            font-size: 1em;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #bb86fc;
+            box-shadow: 0 0 15px rgba(187, 134, 252, 0.5);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .stat {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #666;
+        }
+
+        .stat-label {
+            color: #999;
+            font-size: 0.85em;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            color: #39ff14;
+            font-size: 1.4em;
+            font-weight: bold;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 25px;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-top: 8px;
+            border: 1px solid #666;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #39ff14, #9d4edd);
+            transition: width 0.5s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            font-weight: bold;
+        }
+
+        .emoji {
+            font-size: 2em;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            margin-left: auto;
+            font-weight: bold;
+        }
+
+        .status-alive {
+            background: #39ff14;
+            color: #000;
+        }
+
+        .status-transformed {
+            background: #ffa500;
+            color: #000;
+        }
+
+        .command-help {
+            background: rgba(157, 78, 221, 0.2);
+            border: 1px solid #9d4edd;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            font-size: 0.9em;
+        }
+
+        .command-help code {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 2px 8px;
+            border-radius: 5px;
+            color: #39ff14;
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(157, 78, 221, 0.4); }
+            50% { box-shadow: 0 0 40px rgba(187, 134, 252, 0.8); }
+        }
+
+        .glowing {
+            animation: glow 2s infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎃 HAUNTED DEVELOPER 🧟</h1>
+        <p class="subtitle">⚡ GRAND FINALE - Costume Contest Mode ⚡</p>
+
+        <div class="demo-grid">
+            <!-- Costume Contest -->
+            <div class="demo-card glowing">
+                <h2>
+                    <span class="emoji">🎭</span>
+                    Costume Contest Mode
+                    <span class="status-badge status-transformed">ACTIVE</span>
+                </h2>
+                <p>Transform your monsters with magical costumes!</p>
+                
+                <h3 style="color: #bb86fc; margin-top: 20px;">👻 Ghost Costumes</h3>
+                <div class="costume-grid">
+                    <button class="costume-btn" onclick="applyCostume('vampire')">
+                        🧛 Vampire
+                    </button>
+                    <button class="costume-btn" onclick="applyCostume('pumpkin')">
+                        🎃 Pumpkin
+                    </button>
+                    <button class="costume-btn" onclick="applyCostume('witch')">
+                        🧙 Witch
+                    </button>
+                </div>
+
+                <h3 style="color: #39ff14; margin-top: 20px;">🧟 Zombie Costumes</h3>
+                <div class="costume-grid">
+                    <button class="costume-btn" onclick="applyCostume('skeleton')">
+                        💀 Skeleton
+                    </button>
+                    <button class="costume-btn" onclick="applyCostume('zombie-runner')">
+                        🏃 Runner
+                    </button>
+                    <button class="costume-btn" onclick="applyCostume('tank-zombie')">
+                        💪 Tank
+                    </button>
+                </div>
+
+                <button onclick="applyCostume('surprise')" style="width: 100%; margin-top: 15px; background: linear-gradient(135deg, #ff6b6b, #ffa500); font-size: 1.1em;">
+                    🎲 SURPRISE ME!
+                </button>
+
+                <div class="command-help">
+                    <strong>Commands:</strong><br>
+                    <code>/costume vampire</code> - Apply vampire to ghost<br>
+                    <code>/costume skeleton</code> - Apply skeleton to zombie<br>
+                    <code>/costume surprise</code> - Random costume!
+                </div>
+
+                <div class="output" id="costumeOutput"></div>
+            </div>
+
+            <!-- Integrated Ghost Chat -->
+            <div class="demo-card">
+                <h2>
+                    <span class="emoji">👻</span>
+                    Ghost Chat
+                    <span class="status-badge status-alive">ALIVE</span>
+                </h2>
+                <input type="text" id="ghostInput" placeholder="Talk to the ghost... (or use /costume commands)">
+                <button onclick="sendToGhost()">💬 Send</button>
+                <button onclick="makeWhisper()">👁️ Whisper</button>
+                <div class="output" id="ghostOutput"></div>
+                <div class="stats">
+                    <div class="stat">
+                        <div class="stat-label">State</div>
+                        <div class="stat-value" id="ghostState">Curious</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-label">Costume</div>
+                        <div class="stat-value" id="ghostCostume">None</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Integrated Zombie Engine -->
+            <div class="demo-card">
+                <h2>
+                    <span class="emoji">🧟</span>
+                    Zombie Engine
+                    <span class="status-badge status-alive">ALIVE</span>
+                </h2>
+                <button onclick="updateZombie()">🔄 Update</button>
+                <button onclick="makeSound()">🔊 Sound</button>
+                <button onclick="reviveZombie()">💊 Revive</button>
+                <div class="output" id="zombieOutput"></div>
+                <div class="stats">
+                    <div class="stat">
+                        <div class="stat-label">Health</div>
+                        <div class="stat-value" id="zombieHealth">100</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="healthBar" style="width: 100%">100%</div>
+                        </div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-label">State</div>
+                        <div class="stat-value" id="zombieState">Idle</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-label">Costume</div>
+                        <div class="stat-value" id="zombieCostume">None</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- System Integration -->
+            <div class="demo-card">
+                <h2>
+                    <span class="emoji">🔗</span>
+                    System Integration
+                    <span class="status-badge status-alive">CONNECTED</span>
+                </h2>
+                <p>All systems working together!</p>
+                <button onclick="awakenAll()">⚡ Awaken All</button>
+                <button onclick="triggerCrossSystem()">🔗 Cross-System Event</button>
+                <div class="stats">
+                    <div class="stat">
+                        <div class="stat-label">Heartbeats</div>
+                        <div class="stat-value" id="heartbeats">0</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-label">Time</div>
+                        <div class="stat-value" id="timeOfDay">Day</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-label">Cross Events</div>
+                        <div class="stat-value" id="crossEvents">0</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-label">Costumes Applied</div>
+                        <div class="stat-value" id="costumesApplied">0</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="demo-card">
+            <h2>
+                <span class="emoji">📊</span>
+                System Log
+            </h2>
+            <div class="output" id="systemLog" style="max-height: 400px;"></div>
+        </div>
+    </div>
+
+    <script type="module">
+        // This is a simplified demo - full implementation would import actual modules
+        
+        let heartbeatCount = 0;
+        let crossEventCount = 0;
+        let costumesAppliedCount = 0;
+        let currentGhostCostume = 'None';
+        let currentZombieCostume = 'None';
+        let zombieHealth = 100;
+
+        // Costume data
+        const costumes = {
+            vampire: { type: 'ghost', name: 'Vampire Mode', icon: '🧛', power: 3.0 },
+            pumpkin: { type: 'ghost', name: 'Pumpkin Head', icon: '🎃', power: 1.5 },
+            witch: { type: 'ghost', name: 'Witch Spell', icon: '🧙', power: 2.0 },
+            skeleton: { type: 'zombie', name: 'Skeleton', icon: '💀', speed: 1.5 },
+            'zombie-runner': { type: 'zombie', name: 'Runner', icon: '🏃', speed: 2.0 },
+            'tank-zombie': { type: 'zombie', name: 'Tank', icon: '💪', health: 200 }
+        };
+
+        // Start heartbeat
+        setInterval(() => {
+            heartbeatCount++;
+            document.getElementById('heartbeats').textContent = heartbeatCount;
+            
+            const hour = new Date().getHours();
+            const timeOfDay = hour >= 0 && hour < 3 ? 'Witching' : 
+                             hour >= 18 ? 'Night' : 'Day';
+            document.getElementById('timeOfDay').textContent = timeOfDay;
+            
+            // Decay zombie health
+            if (zombieHealth > 0) {
+                zombieHealth = Math.max(0, zombieHealth - 0.1);
+                updateZombieDisplay();
+            }
+        }, 1000);
+
+        window.applyCostume = (costumeId) => {
+            if (costumeId === 'surprise') {
+                const keys = Object.keys(costumes);
+                costumeId = keys[Math.floor(Math.random() * keys.length)];
+                log(`🎲 Random costume selected: ${costumes[costumeId].name}`, 'costume');
+            }
+
+            const costume = costumes[costumeId];
+            if (!costume) return;
+
+            costumesAppliedCount++;
+            document.getElementById('costumesApplied').textContent = costumesAppliedCount;
+
+            if (costume.type === 'ghost') {
+                currentGhostCostume = costume.name;
+                document.getElementById('ghostCostume').textContent = costume.icon + ' ' + costume.name;
+                addCostumeOutput(`✨ Applied ${costume.icon} ${costume.name} to Ghost!`);
+                addCostumeOutput(`Power multiplier: x${costume.power}`);
+                log(`🎭 Ghost transformed into ${costume.name}`, 'costume');
+            } else {
+                currentZombieCostume = costume.name;
+                document.getElementById('zombieCostume').textContent = costume.icon + ' ' + costume.name;
+                addCostumeOutput(`✨ Applied ${costume.icon} ${costume.name} to Zombie!`);
+                if (costume.speed) addCostumeOutput(`Speed multiplier: x${costume.speed}`);
+                if (costume.health) {
+                    zombieHealth = costume.health;
+                    addCostumeOutput(`Health set to: ${costume.health}`);
+                    updateZombieDisplay();
+                }
+                log(`🎭 Zombie transformed into ${costume.name}`, 'costume');
+            }
+
+            // Trigger cross-system effect
+            triggerCrossSystem();
+        };
+
+        window.sendToGhost = () => {
+            const input = document.getElementById('ghostInput').value;
+            if (!input) return;
+
+            // Check for costume command
+            if (input.startsWith('/costume')) {
+                const parts = input.split(' ');
+                const costumeName = parts.slice(1).join('-');
+                applyCostume(costumeName);
+                document.getElementById('ghostInput').value = '';
+                return;
+            }
+
+            addGhostOutput(`You: ${input}`);
+            
+            // Simple response based on costume
+            let response = "Ooooh... interesting! 👻";
+            if (currentGhostCostume.includes('Vampire')) {
+                response = "Mwahaha... your blood calls to me! 🧛";
+            } else if (currentGhostCostume.includes('Pumpkin')) {
+                response = "Trick or treat! Hehe! 🎃";
+            } else if (currentGhostCostume.includes('Witch')) {
+                response = "Hocus pocus! Let me consult my grimoire... 🧙";
+            }
+            
+            addGhostOutput(`Ghost: ${response}`);
+            document.getElementById('ghostInput').value = '';
+            log('👻 Ghost responded', 'ghost');
+        };
+
+        window.makeWhisper = () => {
+            const whispers = [
+                "*whispers* I'm watching...",
+                "*whispers* Can you hear me?",
+                "*whispers* Boo..."
+            ];
+            const whisper = whispers[Math.floor(Math.random() * whispers.length)];
+            addGhostOutput(whisper);
+            log('👁️ Ghost whispered', 'ghost');
+        };
+
+        window.updateZombie = () => {
+            const states = ['Idle', 'Wandering', 'Detecting', 'Chasing'];
+            const newState = states[Math.floor(Math.random() * states.length)];
+            document.getElementById('zombieState').textContent = newState;
+            addZombieOutput(`State changed to: ${newState}`);
+            log(`🧟 Zombie state: ${newState}`, 'zombie');
+        };
+
+        window.makeSound = () => {
+            addZombieOutput('🔊 Zombie heard sound! Detecting...');
+            document.getElementById('zombieState').textContent = 'Detecting';
+            log('🔊 Sound triggered zombie', 'zombie');
+            triggerCrossSystem();
+        };
+
+        window.reviveZombie = () => {
+            zombieHealth = Math.min(200, zombieHealth + 50);
+            updateZombieDisplay();
+            addZombieOutput('💊 Zombie revived! +50 HP');
+            log('💊 Zombie revived', 'zombie');
+        };
+
+        window.awakenAll = () => {
+            log('⚡ AWAKENING ALL SYSTEMS!', 'system');
+            log('👻 Ghost personality: ACTIVE', 'ghost');
+            log('🧟 Zombie AI: ACTIVE', 'zombie');
+            log('🎭 Costume engine: ACTIVE', 'costume');
+            log('🔗 System integrator: ACTIVE', 'system');
+        };
+
+        window.triggerCrossSystem = () => {
+            crossEventCount++;
+            document.getElementById('crossEvents').textContent = crossEventCount;
+            log('🔗 Cross-system event triggered!', 'system');
+            
+            if (currentGhostCostume.includes('Vampire')) {
+                log('🧛 Vampire ghost makes zombies aggressive!', 'system');
+                addZombieOutput('😠 Feeling aggressive from vampire presence!');
+            }
+        };
+
+        function updateZombieDisplay() {
+            document.getElementById('zombieHealth').textContent = Math.round(zombieHealth);
+            const healthBar = document.getElementById('healthBar');
+            const percent = (zombieHealth / 200) * 100;
+            healthBar.style.width = percent + '%';
+            healthBar.textContent = Math.round(percent) + '%';
+        }
+
+        function addGhostOutput(text) {
+            addOutput('ghostOutput', text, 'ghost-output');
+        }
+
+        function addZombieOutput(text) {
+            addOutput('zombieOutput', text, 'zombie-output');
+        }
+
+        function addCostumeOutput(text) {
+            addOutput('costumeOutput', text, 'costume-output');
+        }
+
+        function addOutput(id, text, className) {
+            const output = document.getElementById(id);
+            const line = document.createElement('div');
+            line.className = `output-line ${className}`;
+            line.textContent = text;
+            output.appendChild(line);
+            output.scrollTop = output.scrollHeight;
+        }
+
+        function log(text, type = 'system') {
+            const output = document.getElementById('systemLog');
+            const line = document.createElement('div');
+            line.className = `output-line ${type}-output`;
+            const timestamp = new Date().toLocaleTimeString();
+            line.textContent = `[${timestamp}] ${text}`;
+            output.appendChild(line);
+            output.scrollTop = output.scrollHeight;
+        }
+
+        // Initial logs
+        log('🎃 GRAND FINALE DEMO READY!', 'system');
+        log('🎭 Costume Contest Mode: ACTIVE', 'costume');
+        log('Try applying costumes to transform your monsters!', 'system');
+        awakenAll();
+    </script>
+</body>
+</html>

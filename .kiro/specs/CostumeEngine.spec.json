@@ -1,0 +1,126 @@
+{
+  "name": "Costume Engine Specification",
+  "version": "1.0.0",
+  "description": "Transform monsters with customizable costume presets",
+  "module": "costumes/CostumeEngine.js",
+  "costume_types": {
+    "ghost": {
+      "modifiable_attributes": [
+        "personality traits (fear, mischief, curiosity, rage)",
+        "default state",
+        "speech patterns",
+        "night power multiplier",
+        "whisper frequency",
+        "memory capacity"
+      ],
+      "visual_effects": ["color", "glow", "effect", "icon"],
+      "audio_effects": ["voice", "echo", "sound effects"]
+    },
+    "zombie": {
+      "modifiable_attributes": [
+        "speed (wander and chase)",
+        "health",
+        "aggression level",
+        "decay rate",
+        "vision radius",
+        "hearing radius",
+        "attack radius"
+      ],
+      "powers": ["regeneration", "super hearing", "night vision", "berserker"],
+      "visual_effects": ["color", "glow", "effect", "icon"],
+      "audio_effects": ["footsteps", "attack", "groan"]
+    },
+    "frankenstein": {
+      "modifiable_attributes": [
+        "organs (add new body parts)",
+        "powers (electrical surge, super strength, etc.)",
+        "module connections"
+      ],
+      "visual_effects": ["color", "glow", "effect", "icon"]
+    }
+  },
+  "available_costumes": {
+    "ghost_costumes": [
+      {
+        "id": "vampire",
+        "name": "Vampire Mode",
+        "effects": "3x night power, 2x whisper frequency, blood-drip visual"
+      },
+      {
+        "id": "pumpkin",
+        "name": "Pumpkin Head Mode",
+        "effects": "1.5x night power, flicker visual, cheerful voice"
+      },
+      {
+        "id": "witch",
+        "name": "Witch Spell Mode",
+        "effects": "2x night power, 3x memory, sparkles visual, mystical voice"
+      }
+    ],
+    "zombie_costumes": [
+      {
+        "id": "skeleton",
+        "name": "Skeleton Mode",
+        "effects": "1.5x speed, 80 HP, rattle visual, bone sounds"
+      },
+      {
+        "id": "zombie-runner",
+        "name": "Runner Zombie Mode",
+        "effects": "2x speed, 120 HP, 0.9 aggression, speed-blur visual"
+      },
+      {
+        "id": "tank-zombie",
+        "name": "Tank Zombie Mode",
+        "effects": "0.5x speed, 200 HP, 0.5 regeneration, heavy visual"
+      }
+    ],
+    "frankenstein_costumes": [
+      {
+        "id": "frankenstein-classic",
+        "name": "Classic Frankenstein",
+        "effects": "Lightning heart, enhanced brain, electrical surge"
+      },
+      {
+        "id": "frankenstein-modern",
+        "name": "Modern Cyborg",
+        "effects": "Digital brain, cyber reflexes, 3x data processing"
+      }
+    ]
+  },
+  "commands": {
+    "/costume vampire": "Apply vampire costume to ghost",
+    "/costume skeleton": "Apply skeleton costume to zombie",
+    "/costume surprise": "Apply random costume to random entity",
+    "/costume zombie runner": "Apply runner costume to zombie",
+    "/costume remove ghost": "Remove ghost costume"
+  },
+  "transformation_rules": {
+    "safety_limits": {
+      "ghost": {
+        "maxPersonalityChange": 0.5,
+        "maxNightPower": 3.0,
+        "maxWhisperProbability": 0.9
+      },
+      "zombie": {
+        "maxSpeedMultiplier": 3.0,
+        "minHealth": 50,
+        "maxHealth": 300,
+        "maxAggressionChange": 0.3
+      },
+      "frankenstein": {
+        "maxOrgans": 15,
+        "maxPowerMultiplier": 3.0
+      }
+    },
+    "cooldowns": {
+      "ghost": "5000ms",
+      "zombie": "3000ms",
+      "frankenstein": "10000ms"
+    }
+  },
+  "integration": {
+    "resurrection_engine": "Connects to core for state management",
+    "system_integrator": "Enables cross-system costume effects",
+    "visual_renderer": "Applies visual effects to UI"
+  }
+}

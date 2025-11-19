@@ -1,0 +1,296 @@
+{
+  "costumes": [
+    {
+      "id": "vampire",
+      "name": "Vampire Mode",
+      "type": "ghost",
+      "description": "Elegant, sophisticated, and powerful at night",
+      "personality": {
+        "fearLevel": 0.1,
+        "mischiefLevel": 0.9,
+        "curiosityLevel": 0.6,
+        "rageLevel": 0.4
+      },
+      "defaultState": "mischievous",
+      "speech": {
+        "curious": ["Interesting...", "Tell me more, mortal", "Fascinating"],
+        "mischievous": ["Mwahaha", "Delicious", "Your blood calls to me"],
+        "fearful": ["The sun!", "Garlic!", "No!"],
+        "angry": ["ENOUGH!", "You dare!", "Feel my wrath!"],
+        "sleeping": ["Resting in my coffin...", "Zzz", "Dawn approaches"]
+      },
+      "powers": {
+        "nightVision": 3.0,
+        "whisperFrequency": 2.0,
+        "memoryBoost": 2.0
+      },
+      "visual": {
+        "color": "#8b0000",
+        "glow": "#ff0000",
+        "effect": "blood-drip",
+        "icon": "🧛"
+      },
+      "audio": {
+        "voice": "deep",
+        "echo": true,
+        "effects": ["bat-wings", "thunder"]
+      }
+    },
+    {
+      "id": "pumpkin",
+      "name": "Pumpkin Head Mode",
+      "type": "ghost",
+      "description": "Classic Halloween spirit with jack-o-lantern charm",
+      "personality": {
+        "fearLevel": 0.2,
+        "mischiefLevel": 0.8,
+        "curiosityLevel": 0.7,
+        "rageLevel": 0.3
+      },
+      "defaultState": "mischievous",
+      "speech": {
+        "curious": ["Ooooh", "What's this?", "Spooky!"],
+        "mischievous": ["Trick or treat!", "Boo!", "Hehe"],
+        "fearful": ["Oh no!", "Scary!", "Help!"],
+        "angry": ["Grr!", "No candy?!", "Bah!"],
+        "sleeping": ["Zzz", "Candle's out...", "Sleepy pumpkin"]
+      },
+      "powers": {
+        "nightVision": 1.5,
+        "whisperFrequency": 1.5,
+        "memoryBoost": 1.0
+      },
+      "visual": {
+        "color": "#ff8c00",
+        "glow": "#ffa500",
+        "effect": "flicker",
+        "icon": "🎃"
+      },
+      "audio": {
+        "voice": "cheerful",
+        "echo": false,
+        "effects": ["leaves-rustle", "wind"]
+      }
+    },
+    {
+      "id": "witch",
+      "name": "Witch Spell Mode",
+      "type": "ghost",
+      "description": "Mystical and magical with spell-casting abilities",
+      "personality": {
+        "fearLevel": 0.3,
+        "mischiefLevel": 0.7,
+        "curiosityLevel": 0.9,
+        "rageLevel": 0.5
+      },
+      "defaultState": "curious",
+      "speech": {
+        "curious": ["Hmm, interesting spell...", "Let me consult my grimoire", "Curious indeed"],
+        "mischievous": ["Hocus pocus!", "Abracadabra!", "Hehe"],
+        "fearful": ["My spells!", "The cauldron!", "Oh dear!"],
+        "angry": ["Hex you!", "Curse you!", "Feel my magic!"],
+        "sleeping": ["Brewing potions...", "Zzz", "Meditation time"]
+      },
+      "powers": {
+        "nightVision": 2.0,
+        "whisperFrequency": 1.8,
+        "memoryBoost": 3.0
+      },
+      "visual": {
+        "color": "#9d4edd",
+        "glow": "#bb86fc",
+        "effect": "sparkles",
+        "icon": "🧙"
+      },
+      "audio": {
+        "voice": "mystical",
+        "echo": true,
+        "effects": ["cauldron-bubble", "spell-cast"]
+      }
+    },
+    {
+      "id": "skeleton",
+      "name": "Skeleton Mode",
+      "type": "zombie",
+      "description": "Fast, agile, and rattling bones",
+      "stats": {
+        "speed": 1.5,
+        "health": 80,
+        "aggression": 0.6,
+        "decayRate": 0.05
+      },
+      "senses": {
+        "visionRadius": 180,
+        "hearingRadius": 250,
+        "attackRadius": 35
+      },
+      "powers": {
+        "regeneration": 0.3,
+        "superHearing": 1.5,
+        "nightVision": 1.2
+      },
+      "visual": {
+        "color": "#ffffff",
+        "glow": "#e0e0e0",
+        "effect": "rattle",
+        "icon": "💀"
+      },
+      "audio": {
+        "footsteps": "bone-rattle",
+        "attack": "bone-crack",
+        "groan": "skeleton-laugh"
+      }
+    },
+    {
+      "id": "zombie-runner",
+      "name": "Runner Zombie Mode",
+      "type": "zombie",
+      "description": "Fast and aggressive, inspired by modern zombies",
+      "stats": {
+        "speed": 2.0,
+        "health": 120,
+        "aggression": 0.9,
+        "decayRate": 0.15
+      },
+      "senses": {
+        "visionRadius": 200,
+        "hearingRadius": 180,
+        "attackRadius": 40
+      },
+      "powers": {
+        "regeneration": 0.1,
+        "superHearing": 1.2,
+        "berserker": 1.5
+      },
+      "visual": {
+        "color": "#39ff14",
+        "glow": "#00ff00",
+        "effect": "speed-blur",
+        "icon": "🏃💀"
+      },
+      "audio": {
+        "footsteps": "fast-thud",
+        "attack": "scream",
+        "groan": "rage-roar"
+      }
+    },
+    {
+      "id": "tank-zombie",
+      "name": "Tank Zombie Mode",
+      "type": "zombie",
+      "description": "Slow but incredibly durable and powerful",
+      "stats": {
+        "speed": 0.5,
+        "health": 200,
+        "aggression": 0.8,
+        "decayRate": 0.02
+      },
+      "senses": {
+        "visionRadius": 120,
+        "hearingRadius": 150,
+        "attackRadius": 50
+      },
+      "powers": {
+        "regeneration": 0.5,
+        "superHearing": 0.8,
+        "nightVision": 0.9
+      },
+      "visual": {
+        "color": "#4a5f4a",
+        "glow": "#2d4a2d",
+        "effect": "heavy",
+        "icon": "🧟‍♂️💪"
+      },
+      "audio": {
+        "footsteps": "heavy-stomp",
+        "attack": "ground-pound",
+        "groan": "deep-roar"
+      }
+    },
+    {
+      "id": "frankenstein-classic",
+      "name": "Classic Frankenstein",
+      "type": "frankenstein",
+      "description": "The original monster with enhanced organs",
+      "organs": [
+        {
+          "name": "Lightning Heart",
+          "type": "nervous",
+          "power": "Electrical surge boosts all systems"
+        },
+        {
+          "name": "Enhanced Brain",
+          "type": "memory",
+          "power": "Superior learning and recall"
+        }
+      ],
+      "powers": {
+        "electricalSurge": 2.0,
+        "superStrength": 1.8,
+        "regeneration": 0.4
+      },
+      "visual": {
+        "color": "#808080",
+        "glow": "#00ffff",
+        "effect": "lightning",
+        "icon": "⚡🧟"
+      }
+    },
+    {
+      "id": "frankenstein-modern",
+      "name": "Modern Cyborg",
+      "type": "frankenstein",
+      "description": "Tech-enhanced monster with digital organs",
+      "organs": [
+        {
+          "name": "Digital Brain",
+          "type": "memory",
+          "power": "Instant data processing"
+        },
+        {
+          "name": "Cyber Reflexes",
+          "type": "reflex",
+          "power": "Lightning-fast reactions"
+        }
+      ],
+      "powers": {
+        "dataProcessing": 3.0,
+        "cyberReflexes": 2.5,
+        "nightVision": 2.0
+      },
+      "visual": {
+        "color": "#00ffff",
+        "glow": "#0080ff",
+        "effect": "digital-glitch",
+        "icon": "🤖🧟"
+      }
+    }
+  ],
+  "transformationRules": {
+    "ghost": {
+      "maxPersonalityChange": 0.5,
+      "minNightPower": 1.0,
+      "maxNightPower": 3.0,
+      "cooldown": 5000
+    },
+    "zombie": {
+      "maxSpeedMultiplier": 3.0,
+      "minHealth": 50,
+      "maxHealth": 300,
+      "maxAggressionChange": 0.3,
+      "cooldown": 3000
+    },
+    "frankenstein": {
+      "maxOrgans": 15,
+      "maxPowerMultiplier": 3.0,
+      "cooldown": 10000
+    }
+  },
+  "costumeCategories": {
+    "classic": ["vampire", "pumpkin", "witch", "skeleton", "frankenstein-classic"],
+    "modern": ["zombie-runner", "tank-zombie", "frankenstein-modern"],
+    "powerful": ["vampire", "tank-zombie", "frankenstein-modern"],
+    "fast": ["skeleton", "zombie-runner"],
+    "spooky": ["pumpkin", "witch", "skeleton"]
+  }
+}
