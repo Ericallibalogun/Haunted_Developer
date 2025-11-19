@@ -1,0 +1,351 @@
+{
+  "name": "Flash Game Resurrection",
+  "version": "1.0.0",
+  "description": "Resurrects Adobe Flash game engine using HTML5 Canvas",
+  "theme": "retro-flash",
+  "modules": [
+    {
+      "name": "FlashGameCore",
+      "path": "resurrections/flash-game/FlashGameCore.js",
+      "responsibilities": [
+        "Recreate Flash-style game loop at 30 FPS",
+        "Manage movie clips (Flash terminology)",
+        "Provide Flash-style timeline control",
+        "Handle Flash-style stage and coordinate system",
+        "Support Flash animation features (tweening, keyframes)"
+      ],
+      "interface": {
+        "constructor": {
+          "description": "Initialize Flash-style engine",
+          "initializes": [
+            "canvas: HTMLCanvasElement",
+            "context: CanvasRenderingContext2D",
+            "isPlaying: boolean",
+            "frameRate: 30",
+            "currentFrame: number",
+            "timeline: array",
+            "stage: object",
+            "movieClips: Map"
+          ]
+        },
+        "init": {
+          "parameters": [
+            {
+              "name": "canvasId",
+              "type": "string",
+              "description": "Canvas element ID"
+            }
+          ],
+          "returns": "void",
+          "description": "Set up canvas and Flash-style stage"
+        },
+        "play": {
+          "parameters": [],
+          "returns": "void",
+          "description": "Start Flash-style animation playback"
+        },
+        "stop": {
+          "parameters": [],
+          "returns": "void",
+          "description": "Pause animation"
+        },
+        "gotoAndPlay": {
+          "parameters": [
+            {
+              "name": "frame",
+              "type": "number",
+              "description": "Frame number to jump to"
+            }
+          ],
+          "returns": "void",
+          "description": "Jump to frame and continue playing"
+        },
+        "gotoAndStop": {
+          "parameters": [
+            {
+              "name": "frame",
+              "type": "number"
+            }
+          ],
+          "returns": "void",
+          "description": "Jump to frame and pause"
+        },
+        "update": {
+          "parameters": [],
+          "returns": "void",
+          "description": "Update all movie clips and timeline"
+        },
+        "render": {
+          "parameters": [],
+          "returns": "void",
+          "description": "Draw all movie clips to canvas"
+        },
+        "addMovieClip": {
+          "parameters": [
+            {
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "name": "movieClip",
+              "type": "object",
+              "properties": {
+                "x": "number",
+                "y": "number",
+                "width": "number",
+                "height": "number",
+                "frames": "array",
+                "onEnterFrame": "function (optional)"
+              }
+            }
+          ],
+          "returns": "void",
+          "description": "Add Flash-style movie clip to stage"
+        },
+        "removeMovieClip": {
+          "parameters": [
+            {
+              "name": "name",
+              "type": "string"
+            }
+          ],
+          "returns": "void"
+        },
+        "createTween": {
+          "parameters": [
+            {
+              "name": "target",
+              "type": "object"
+            },
+            {
+              "name": "property",
+              "type": "string"
+            },
+            {
+              "name": "endValue",
+              "type": "number"
+            },
+            {
+              "name": "duration",
+              "type": "number"
+            },
+            {
+              "name": "easing",
+              "type": "string",
+              "default": "linear"
+            }
+          ],
+          "returns": "object",
+          "description": "Create Flash-style motion tween"
+        }
+      },
+      "event_flows": [
+        "init() → Set up canvas and stage",
+        "play() → Start game loop at 30 FPS",
+        "update() → Process timeline, call onEnterFrame handlers",
+        "render() → Draw all movie clips in z-order",
+        "User calls gotoAndPlay() → Jump to frame, continue loop"
+      ],
+      "upgrade_notes": [
+        "30 FPS is Flash standard, but can be increased to 60 FPS",
+        "Movie clips can be nested for complex animations",
+        "Timeline can support labels for named frames",
+        "Add support for Flash filters (glow, blur, drop shadow)",
+        "Implement ActionScript 2.0 compatibility layer",
+        "Add vector graphics rendering (SVG integration)",
+        "Support external SWF loading (if metadata available)"
+      ],
+      "integration_with_zombie_engine": {
+        "game_loop": "Flash 30 FPS can run alongside Zombie Engine 60 FPS",
+        "sprites": "Flash movie clips convert to Zombie Engine sprites",
+        "events": "Flash events bridge to modern input handler",
+        "rendering": "Flash layer renders on top of or below game layer"
+      }
+    },
+    {
+      "name": "FlashSpriteAdapter",
+      "path": "resurrections/flash-game/FlashSpriteAdapter.js",
+      "responsibilities": [
+        "Convert Flash sprite metadata to modern JSON",
+        "Transform Flash coordinate system",
+        "Convert Flash animations to frame arrays",
+        "Handle Flash registration points",
+        "Convert Flash filters to CSS equivalents"
+      ],
+      "interface": {
+        "loadFlashMetadata": {
+          "parameters": [
+            {
+              "name": "metadata",
+              "type": "object",
+              "description": "Flash sprite metadata (from .fla export or decompiler)"
+            }
+          ],
+          "returns": "void"
+        },
+        "convertSprite": {
+          "parameters": [
+            {
+              "name": "flashSprite",
+              "type": "object"
+            }
+          ],
+          "returns": {
+            "type": "object",
+            "description": "Modern sprite format"
+          }
+        },
+        "convertTimeline": {
+          "parameters": [
+            {
+              "name": "flashTimeline",
+              "type": "object"
+            }
+          ],
+          "returns": {
+            "type": "array",
+            "description": "Array of animation frames"
+          }
+        },
+        "convertMovieClip": {
+          "parameters": [
+            {
+              "name": "flashMovieClip",
+              "type": "object"
+            }
+          ],
+          "returns": {
+            "type": "object",
+            "description": "Modern sprite group with nested sprites"
+          }
+        },
+        "convertProject": {
+          "parameters": [
+            {
+              "name": "flashProject",
+              "type": "object"
+            }
+          ],
+          "returns": {
+            "type": "object",
+            "description": "Complete modern project structure"
+          }
+        }
+      },
+      "conversion_mappings": {
+        "coordinates": "Flash uses top-left origin (same as Canvas)",
+        "rotation": "Flash uses degrees, convert to radians",
+        "alpha": "Flash uses 0-100, convert to 0-1",
+        "scale": "Flash uses percentage, convert to decimal",
+        "registration_point": "Flash registration → modern anchor point"
+      }
+    },
+    {
+      "name": "FlashToHTML5Bridge",
+      "path": "resurrections/flash-game/FlashToHTML5Bridge.js",
+      "responsibilities": [
+        "Bridge Flash events to modern JavaScript events",
+        "Convert Flash coordinate system",
+        "Translate ActionScript patterns to JavaScript",
+        "Handle Flash-style hit testing",
+        "Support Flash timeline control from events"
+      ],
+      "interface": {
+        "init": {
+          "parameters": [
+            {
+              "name": "canvas",
+              "type": "HTMLCanvasElement"
+            }
+          ],
+          "returns": "void"
+        },
+        "addEventListener": {
+          "parameters": [
+            {
+              "name": "target",
+              "type": "object"
+            },
+            {
+              "name": "eventType",
+              "type": "string",
+              "description": "Flash event type (mouseDown, enterFrame, etc.)"
+            },
+            {
+              "name": "handler",
+              "type": "function"
+            }
+          ],
+          "returns": "void"
+        },
+        "dispatchEnterFrame": {
+          "parameters": [],
+          "returns": "void",
+          "description": "Called every frame by FlashGameCore"
+        },
+        "globalToLocal": {
+          "parameters": [
+            {
+              "name": "target",
+              "type": "object"
+            },
+            {
+              "name": "globalX",
+              "type": "number"
+            },
+            {
+              "name": "globalY",
+              "type": "number"
+            }
+          ],
+          "returns": {
+            "type": "object",
+            "properties": {
+              "x": "number",
+              "y": "number"
+            }
+          }
+        },
+        "hitTest": {
+          "parameters": [
+            {
+              "name": "target",
+              "type": "object"
+            },
+            {
+              "name": "x",
+              "type": "number"
+            },
+            {
+              "name": "y",
+              "type": "number"
+            }
+          ],
+          "returns": "boolean"
+        }
+      },
+      "event_mappings": {
+        "ENTER_FRAME": "Called every frame (Flash game loop)",
+        "MOUSE_DOWN": "Modern mousedown event",
+        "MOUSE_UP": "Modern mouseup event",
+        "MOUSE_MOVE": "Modern mousemove event",
+        "KEY_DOWN": "Modern keydown event",
+        "KEY_UP": "Modern keyup event"
+      }
+    }
+  ],
+  "resurrection_philosophy": {
+    "preserve": "Maintain Flash's API and feel",
+    "modernize": "Use HTML5 Canvas and modern JavaScript",
+    "enhance": "Add features Flash couldn't do",
+    "honor": "Respect Flash's legacy and impact"
+  },
+  "kiro_expansion_guide": {
+    "phase_1": "Implement basic game loop and movie clip rendering",
+    "phase_2": "Add timeline control and frame navigation",
+    "phase_3": "Implement event bridging and hit testing",
+    "phase_4": "Add tweening and animation features",
+    "phase_5": "Create sprite conversion tools",
+    "phase_6": "Build complete Flash game resurrection pipeline"
+  }
+}

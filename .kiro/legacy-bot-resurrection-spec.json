@@ -1,0 +1,207 @@
+{
+  "name": "Legacy Chatbot Resurrection",
+  "version": "1.0.0",
+  "description": "Resurrects 2000s-era rule-based chatbots (SmarterChild, ELIZA style)",
+  "theme": "retro-aim-bot",
+  "modules": [
+    {
+      "name": "LegacyParser",
+      "path": "resurrections/legacy-bot/LegacyParser.js",
+      "responsibilities": [
+        "Parse messages using simple keyword extraction",
+        "Detect 2000s internet slang (LOL, BRB, TTYL)",
+        "Extract emoticons (:-D, :-), :-P)",
+        "Simple sentiment detection",
+        "Question type detection"
+      ],
+      "interface": {
+        "parse": {
+          "parameters": [
+            {
+              "name": "message",
+              "type": "string"
+            }
+          ],
+          "returns": {
+            "type": "object",
+            "properties": {
+              "original": "string",
+              "keywords": "array",
+              "slang": "array",
+              "emoticons": "array",
+              "sentiment": "string",
+              "questionType": "string|null"
+            }
+          }
+        },
+        "extractKeywords": {
+          "parameters": [{"name": "message", "type": "string"}],
+          "returns": "array"
+        },
+        "detectSlang": {
+          "parameters": [{"name": "message", "type": "string"}],
+          "returns": "array"
+        },
+        "detectSentiment": {
+          "parameters": [{"name": "message", "type": "string"}],
+          "returns": "string"
+        },
+        "detectQuestionType": {
+          "parameters": [{"name": "message", "type": "string"}],
+          "returns": "string|null"
+        }
+      },
+      "parsing_strategy": {
+        "approach": "Simple string matching (no NLP)",
+        "stop_words": ["the", "a", "an", "is", "are"],
+        "slang_map": {
+          "lol": "laughing",
+          "brb": "leaving",
+          "ttyl": "goodbye",
+          "omg": "surprised"
+        }
+      }
+    },
+    {
+      "name": "LegacyRuleEngine",
+      "path": "resurrections/legacy-bot/LegacyRuleEngine.js",
+      "responsibilities": [
+        "Match keywords against rule patterns",
+        "Select random response from matching rule",
+        "Apply bot personality (emoticons, slang)",
+        "Maintain simple conversation context",
+        "Provide fallback responses"
+      ],
+      "interface": {
+        "loadRules": {
+          "parameters": [{"name": "rules", "type": "array"}],
+          "returns": "void"
+        },
+        "addRule": {
+          "parameters": [
+            {
+              "name": "rule",
+              "type": "object",
+              "properties": {
+                "patterns": "array",
+                "responses": "array",
+                "category": "string",
+                "confidence": "number"
+              }
+            }
+          ],
+          "returns": "void"
+        },
+        "match": {
+          "parameters": [{"name": "parsed", "type": "object"}],
+          "returns": {
+            "type": "object",
+            "properties": {
+              "text": "string",
+              "confidence": "number",
+              "category": "string",
+              "rule": "object"
+            }
+          }
+        },
+        "applyPersonality": {
+          "parameters": [{"name": "response", "type": "string"}],
+          "returns": "string"
+        },
+        "loadPersonality": {
+          "parameters": [{"name": "presetName", "type": "string"}],
+          "returns": "void"
+        }
+      },
+      "personalities": {
+        "smarterchild": {
+          "style": "helpful",
+          "emoticons": [":-D", ":-)", ":-P"],
+          "slang": ["LOL", "BRB", "TTYL"],
+          "enthusiasm": 0.8
+        },
+        "eliza": {
+          "style": "therapeutic",
+          "emoticons": [],
+          "slang": [],
+          "patterns": ["reflective questions"]
+        },
+        "cleverbot": {
+          "style": "quirky",
+          "emoticons": [":)", ":(", ":P"],
+          "slang": ["lol", "brb", "omg"]
+        }
+      }
+    },
+    {
+      "name": "GhostChatAdapter",
+      "path": "resurrections/legacy-bot/GhostChatAdapter.js",
+      "responsibilities": [
+        "Convert legacy responses to Ghost Chat format",
+        "Add ghost-themed elements to vintage responses",
+        "Merge legacy and modern bot responses",
+        "Format for different UI modes (vintage/hybrid/modern)",
+        "Preserve 2000s personality while adding spooky twist"
+      ],
+      "interface": {
+        "getLegacyResponse": {
+          "parameters": [{"name": "message", "type": "string"}],
+          "returns": "string"
+        },
+        "formatForGhostChat": {
+          "parameters": [{"name": "legacyResponse", "type": "string"}],
+          "returns": {
+            "type": "object",
+            "properties": {
+              "text": "string",
+              "sender": "string",
+              "timestamp": "number",
+              "style": "string",
+              "metadata": "object"
+            }
+          }
+        },
+        "addGhostTheming": {
+          "parameters": [{"name": "response", "type": "string"}],
+          "returns": "string"
+        },
+        "mergeResponses": {
+          "parameters": [
+            {"name": "legacyResponse", "type": "string"},
+            {"name": "modernResponse", "type": "string"}
+          ],
+          "returns": "string"
+        }
+      },
+      "theming_strategy": {
+        "add_emojis": "👻 🎃 💀 to vintage responses",
+        "vocabulary": "Spooky words mixed with 2000s slang",
+        "preserve": "Keep LOL, BRB, emoticons intact",
+        "enhance": "Add 'from the spirit realm' context"
+      }
+    }
+  ],
+  "integration_with_ghost_chat": {
+    "retro_mode": "Toggle between modern AI and vintage bot",
+    "personality_layer": "Add quirky responses as Easter eggs",
+    "fallback_system": "Use legacy rules when modern parsing fails",
+    "nostalgia_feature": "Special 'talk to 2005 bot' mode"
+  },
+  "future_extensibility": [
+    "Add learning from conversations",
+    "Support custom rule files (plain text format)",
+    "Multiple personality switching",
+    "Context tracking improvements",
+    "Mini-games (trivia, 20 questions)",
+    "ASCII art responses",
+    "Mood tracking"
+  ],
+  "kiro_expansion_guide": {
+    "phase_1": "Implement basic keyword matching and canned responses",
+    "phase_2": "Add personality system with emoticons and slang",
+    "phase_3": "Create Ghost Chat adapter with spooky theming",
+    "phase_4": "Add simple context tracking",
+    "phase_5": "Implement hybrid mode (legacy + modern)",
+    "phase_6": "Create rule file loader and custom personalities"
+  }
+}

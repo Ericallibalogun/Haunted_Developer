@@ -1,0 +1,239 @@
+{
+  "name": "Dead API Resurrection",
+  "version": "1.0.0",
+  "description": "Simulates responses from dead/deprecated APIs using AI generation",
+  "theme": "api-graveyard",
+  "modules": [
+    {
+      "name": "ApiSimulator",
+      "path": "resurrections/dead-api/ApiSimulator.js",
+      "responsibilities": [
+        "Simulate responses from dead APIs",
+        "Generate AI-powered contextual data",
+        "Maintain old API formats (XML, legacy JSON)",
+        "Add authentic API quirks (delays, errors)",
+        "Cache responses like old APIs did"
+      ],
+      "interface": {
+        "getWeather": {
+          "parameters": [
+            {
+              "name": "location",
+              "type": "string",
+              "default": "Haunted Mansion"
+            }
+          ],
+          "returns": {
+            "type": "Promise<object>",
+            "description": "Weather data in old API format"
+          }
+        },
+        "getHoroscope": {
+          "parameters": [
+            {
+              "name": "sign",
+              "type": "string",
+              "default": "Scorpio"
+            }
+          ],
+          "returns": "Promise<object>"
+        },
+        "getTrivia": {
+          "parameters": [
+            {
+              "name": "category",
+              "type": "string",
+              "default": "spooky"
+            }
+          ],
+          "returns": "Promise<object>"
+        },
+        "getNews": {
+          "parameters": [
+            {
+              "name": "topic",
+              "type": "string",
+              "default": "technology"
+            }
+          ],
+          "returns": "Promise<object>"
+        },
+        "getQuote": {
+          "parameters": [
+            {
+              "name": "category",
+              "type": "string",
+              "default": "inspirational"
+            }
+          ],
+          "returns": "Promise<object>"
+        },
+        "simulateDelay": {
+          "parameters": [],
+          "returns": "Promise<void>",
+          "description": "Random delay 100-500ms"
+        },
+        "simulateError": {
+          "parameters": [],
+          "returns": "object",
+          "description": "Random API error (404, 500, timeout)"
+        },
+        "generateAIResponse": {
+          "parameters": [
+            {"name": "endpoint", "type": "string"},
+            {"name": "params", "type": "object"}
+          ],
+          "returns": "Promise<object>",
+          "description": "AI-generated response in old format"
+        }
+      },
+      "api_quirks": {
+        "useXML": "Return XML format for authenticity",
+        "randomDelay": "Simulate network latency",
+        "occasionalErrors": "Random 404s and timeouts",
+        "quirkiness": "Weird deprecated fields",
+        "caching": "5 minute cache like old APIs"
+      },
+      "spooky_enhancements": {
+        "weather": "Foggy with ghosts, ectoplasm precipitation",
+        "horoscope": "Spirit alignment, haunted predictions",
+        "trivia": "Dead technology questions",
+        "news": "Spooky tech headlines",
+        "quotes": "Digital resurrection wisdom"
+      }
+    },
+    {
+      "name": "ApiToModernBridge",
+      "path": "resurrections/dead-api/ApiToModernBridge.js",
+      "responsibilities": [
+        "Convert XML to modern JSON",
+        "Transform legacy JSON to modern format",
+        "Normalize field names",
+        "Convert date formats to ISO 8601",
+        "Add modern metadata"
+      ],
+      "interface": {
+        "xmlToJSON": {
+          "parameters": [{"name": "xmlString", "type": "string"}],
+          "returns": "object"
+        },
+        "legacyJSONToModern": {
+          "parameters": [{"name": "legacyJSON", "type": "object"}],
+          "returns": "object"
+        },
+        "convertWeather": {
+          "parameters": [{"name": "oldResponse", "type": "object"}],
+          "returns": "object"
+        },
+        "convertHoroscope": {
+          "parameters": [{"name": "oldResponse", "type": "object"}],
+          "returns": "object"
+        },
+        "convertTrivia": {
+          "parameters": [{"name": "oldResponse", "type": "object"}],
+          "returns": "object"
+        },
+        "normalizeFieldNames": {
+          "parameters": [{"name": "obj", "type": "object"}],
+          "returns": "object"
+        },
+        "addMetadata": {
+          "parameters": [{"name": "response", "type": "object"}],
+          "returns": "object"
+        },
+        "addSpookyEnhancements": {
+          "parameters": [{"name": "response", "type": "object"}],
+          "returns": "object"
+        }
+      },
+      "field_mappings": {
+        "temp": "temperature",
+        "loc": "location",
+        "desc": "description",
+        "ts": "timestamp",
+        "_id": "id",
+        "img": "image",
+        "url": "link"
+      },
+      "metadata_format": {
+        "timestamp": "ISO 8601 date string",
+        "source": "resurrected-api-name",
+        "version": "2.0",
+        "originalFormat": "xml|json",
+        "resurrectedFrom": "year API died"
+      }
+    }
+  ],
+  "dead_apis_resurrected": [
+    {
+      "name": "Google Weather API",
+      "death_year": 2012,
+      "format": "XML",
+      "resurrection_status": "active"
+    },
+    {
+      "name": "Yahoo Weather API",
+      "death_year": 2019,
+      "format": "RSS/XML",
+      "resurrection_status": "active"
+    },
+    {
+      "name": "Google Reader API",
+      "death_year": 2013,
+      "format": "JSON",
+      "resurrection_status": "planned"
+    }
+  ],
+  "integration_points": {
+    "ghost_chat": {
+      "weather_bot": "Answer weather questions",
+      "horoscope": "Daily predictions",
+      "trivia": "Quiz feature",
+      "quotes": "Inspirational messages"
+    },
+    "zombie_engine": {
+      "dynamic_content": "Weather affects gameplay",
+      "trivia_game": "Trivia mini-game",
+      "news_events": "Headlines as game events"
+    }
+  },
+  "ai_generation_strategy": {
+    "contextual": "Generate responses based on conversation context",
+    "authentic": "Maintain old API format and quirks",
+    "spooky": "Add Halloween/ghost theme",
+    "learning": "Improve responses over time"
+  },
+  "expected_outputs": {
+    "weather": {
+      "format": "XML or JSON",
+      "fields": ["location", "condition", "temperature", "spirits"],
+      "spookiness": "high"
+    },
+    "horoscope": {
+      "format": "JSON",
+      "fields": ["sign", "prediction", "luckyNumber", "compatibility"],
+      "spookiness": "mystical"
+    },
+    "trivia": {
+      "format": "JSON",
+      "fields": ["question", "answers", "correctAnswer", "funFact"],
+      "category": "dead technologies"
+    }
+  },
+  "future_expansions": [
+    "More dead APIs (Delicious, Google+, Vine)",
+    "Machine learning for better responses",
+    "Real-time data integration",
+    "Multi-language support",
+    "Custom API resurrection templates",
+    "Analytics on API usage"
+  ],
+  "kiro_expansion_guide": {
+    "phase_1": "Implement basic API simulators with static responses",
+    "phase_2": "Add format conversion (XML to JSON)",
+    "phase_3": "Implement AI-powered response generation",
+    "phase_4": "Add API quirks (delays, errors, caching)",
+    "phase_5": "Create spooky enhancements",
+    "phase_6": "Integrate with Ghost Chat and Zombie Engine"
+  }
+}

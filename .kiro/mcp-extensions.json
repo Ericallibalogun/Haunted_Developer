@@ -1,0 +1,446 @@
+{
+  "name": "Haunted Developer MCP Extensions",
+  "version": "1.0.0",
+  "description": "Model Context Protocol extensions for resurrection and Frankenstein features",
+  "mcpServers": {
+    "legacy-api-resolver": {
+      "description": "Auto-resolves outdated API endpoints and formats",
+      "command": "node",
+      "args": ["mcp-servers/legacy-api-resolver.js"],
+      "capabilities": [
+        "resolve_dead_api",
+        "convert_xml_to_json",
+        "simulate_api_response",
+        "detect_deprecated_endpoint"
+      ],
+      "tools": [
+        {
+          "name": "resolve_dead_api",
+          "description": "Resolves a dead API endpoint to a resurrected equivalent",
+          "parameters": {
+            "endpoint": {
+              "type": "string",
+              "description": "The dead API endpoint URL"
+            },
+            "originalFormat": {
+              "type": "string",
+              "enum": ["xml", "json", "rss"],
+              "description": "Original response format"
+            }
+          },
+          "returns": {
+            "type": "object",
+            "properties": {
+              "resurrectedEndpoint": "string",
+              "modernFormat": "object",
+              "conversionNotes": "string"
+            }
+          }
+        },
+        {
+          "name": "convert_legacy_format",
+          "description": "Converts legacy API format to modern JSON",
+          "parameters": {
+            "data": {
+              "type": "string",
+              "description": "Legacy format data (XML, old JSON)"
+            },
+            "sourceFormat": {
+              "type": "string",
+              "description": "Source format type"
+            }
+          },
+          "returns": {
+            "type": "object",
+            "description": "Modern JSON format"
+          }
+        }
+      ],
+      "disabled": false,
+      "autoApprove": ["resolve_dead_api", "convert_legacy_format"]
+    },
+    "event-translator": {
+      "description": "Translates events between dead tech and modern modules",
+      "command": "node",
+      "args": ["mcp-servers/event-translator.js"],
+      "capabilities": [
+        "translate_flash_event",
+        "translate_actionscript",
+        "bridge_legacy_bot_event",
+        "convert_coordinate_system"
+      ],
+      "tools": [
+        {
+          "name": "translate_flash_event",
+          "description": "Translates Flash/ActionScript events to modern JavaScript",
+          "parameters": {
+            "flashEvent": {
+              "type": "object",
+              "properties": {
+                "type": "string",
+                "target": "object",
+                "stageX": "number",
+                "stageY": "number"
+              }
+            }
+          },
+          "returns": {
+            "type": "object",
+            "description": "Modern JavaScript event"
+          }
+        },
+        {
+          "name": "convert_actionscript_code",
+          "description": "Converts ActionScript code patterns to JavaScript",
+          "parameters": {
+            "actionscript": {
+              "type": "string",
+              "description": "ActionScript code snippet"
+            }
+          },
+          "returns": {
+            "type": "string",
+            "description": "Equivalent JavaScript code"
+          }
+        },
+        {
+          "name": "bridge_coordinate_systems",
+          "description": "Converts between Flash and Canvas coordinate systems",
+          "parameters": {
+            "x": "number",
+            "y": "number",
+            "sourceSystem": {
+              "type": "string",
+              "enum": ["flash", "canvas"]
+            },
+            "targetSystem": {
+              "type": "string",
+              "enum": ["flash", "canvas"]
+            }
+          },
+          "returns": {
+            "type": "object",
+            "properties": {
+              "x": "number",
+              "y": "number"
+            }
+          }
+        }
+      ],
+      "disabled": false,
+      "autoApprove": ["translate_flash_event", "bridge_coordinate_systems"]
+    },
+    "spooky-audio-generator": {
+      "description": "Generates spooky audio cues dynamically",
+      "command": "node",
+      "args": ["mcp-servers/spooky-audio-generator.js"],
+      "capabilities": [
+        "generate_ghost_sound",
+        "generate_zombie_sound",
+        "create_ambient_horror",
+        "synthesize_retro_sound"
+      ],
+      "tools": [
+        {
+          "name": "generate_ghost_sound",
+          "description": "Generates ethereal ghost sound effects",
+          "parameters": {
+            "type": {
+              "type": "string",
+              "enum": ["whisper", "whoosh", "moan", "chain_rattle"],
+              "description": "Type of ghost sound"
+            },
+            "duration": {
+              "type": "number",
+              "description": "Duration in milliseconds"
+            },
+            "intensity": {
+              "type": "number",
+              "description": "Intensity level 0-1"
+            }
+          },
+          "returns": {
+            "type": "object",
+            "properties": {
+              "audioData": "string (base64)",
+              "format": "string",
+              "duration": "number"
+            }
+          }
+        },
+        {
+          "name": "generate_zombie_sound",
+          "description": "Generates undead zombie sound effects",
+          "parameters": {
+            "type": {
+              "type": "string",
+              "enum": ["groan", "shamble", "bite", "horde"],
+              "description": "Type of zombie sound"
+            },
+            "count": {
+              "type": "number",
+              "description": "Number of zombies (for horde)"
+            }
+          },
+          "returns": {
+            "type": "object",
+            "properties": {
+              "audioData": "string (base64)",
+              "format": "string"
+            }
+          }
+        },
+        {
+          "name": "create_ambient_horror",
+          "description": "Creates ambient horror background music",
+          "parameters": {
+            "mood": {
+              "type": "string",
+              "enum": ["eerie", "tense", "melancholic", "chaotic"],
+              "description": "Mood of the ambient sound"
+            },
+            "duration": {
+              "type": "number",
+              "description": "Duration in seconds"
+            }
+          },
+          "returns": {
+            "type": "object",
+            "properties": {
+              "audioData": "string (base64)",
+              "format": "string",
+              "loop": "boolean"
+            }
+          }
+        },
+        {
+          "name": "synthesize_retro_sound",
+          "description": "Synthesizes retro 8-bit/16-bit style sounds",
+          "parameters": {
+            "type": {
+              "type": "string",
+              "enum": ["blip", "explosion", "powerup", "death"],
+              "description": "Type of retro sound"
+            },
+            "bitDepth": {
+              "type": "number",
+              "enum": [8, 16],
+              "description": "Bit depth for retro feel"
+            }
+          },
+          "returns": {
+            "type": "object",
+            "properties": {
+              "audioData": "string (base64)",
+              "format": "string"
+            }
+          }
+        }
+      ],
+      "disabled": false,
+      "autoApprove": []
+    },
+    "resurrection-assistant": {
+      "description": "Assists with resurrecting dead code and technologies",
+      "command": "node",
+      "args": ["mcp-servers/resurrection-assistant.js"],
+      "capabilities": [
+        "analyze_dead_code",
+        "suggest_resurrection_strategy",
+        "generate_adapter_code",
+        "detect_obsolete_patterns"
+      ],
+      "tools": [
+        {
+          "name": "analyze_dead_code",
+          "description": "Analyzes dead/obsolete code and suggests resurrection approach",
+          "parameters": {
+            "code": {
+              "type": "string",
+              "description": "Dead code to analyze"
+            },
+            "technology": {
+              "type": "string",
+              "description": "Original technology (Flash, AIM bot, etc.)"
+            }
+          },
+          "returns": {
+            "type": "object",
+            "properties": {
+              "obsoletePatterns": "array",
+              "modernEquivalents": "array",
+              "resurrectionStrategy": "string",
+              "estimatedEffort": "string"
+            }
+          }
+        },
+        {
+          "name": "suggest_resurrection_strategy",
+          "description": "Suggests best approach for resurrecting a technology",
+          "parameters": {
+            "technology": {
+              "type": "string",
+              "description": "Technology to resurrect"
+            },
+            "targetPlatform": {
+              "type": "string",
+              "description": "Target modern platform"
+            }
+          },
+          "returns": {
+            "type": "object",
+            "properties": {
+              "strategy": "string",
+              "steps": "array",
+              "challenges": "array",
+              "benefits": "array"
+            }
+          }
+        },
+        {
+          "name": "generate_adapter_code",
+          "description": "Generates adapter code to bridge old and new",
+          "parameters": {
+            "sourceAPI": {
+              "type": "string",
+              "description": "Old API/interface"
+            },
+            "targetAPI": {
+              "type": "string",
+              "description": "New API/interface"
+            },
+            "language": {
+              "type": "string",
+              "default": "javascript"
+            }
+          },
+          "returns": {
+            "type": "object",
+            "properties": {
+              "adapterCode": "string",
+              "usage": "string",
+              "tests": "string"
+            }
+          }
+        },
+        {
+          "name": "detect_obsolete_patterns",
+          "description": "Detects obsolete patterns in codebase",
+          "parameters": {
+            "codebase": {
+              "type": "string",
+              "description": "Path to codebase or code snippet"
+            }
+          },
+          "returns": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "pattern": "string",
+                "location": "string",
+                "obsoleteSince": "string",
+                "modernAlternative": "string"
+              }
+            }
+          }
+        }
+      ],
+      "disabled": false,
+      "autoApprove": ["detect_obsolete_patterns"]
+    },
+    "frankenstein-integrator": {
+      "description": "Helps stitch together resurrected modules (for Milestone 3)",
+      "command": "node",
+      "args": ["mcp-servers/frankenstein-integrator.js"],
+      "capabilities": [
+        "analyze_compatibility",
+        "generate_integration_code",
+        "detect_conflicts",
+        "suggest_stitching_points"
+      ],
+      "tools": [
+        {
+          "name": "analyze_module_compatibility",
+          "description": "Analyzes if two modules can be integrated",
+          "parameters": {
+            "moduleA": {
+              "type": "string",
+              "description": "First module path"
+            },
+            "moduleB": {
+              "type": "string",
+              "description": "Second module path"
+            }
+          },
+          "returns": {
+            "type": "object",
+            "properties": {
+              "compatible": "boolean",
+              "conflicts": "array",
+              "integrationPoints": "array",
+              "effort": "string"
+            }
+          }
+        },
+        {
+          "name": "generate_integration_glue",
+          "description": "Generates glue code to connect modules",
+          "parameters": {
+            "modules": {
+              "type": "array",
+              "description": "Modules to integrate"
+            },
+            "integrationPattern": {
+              "type": "string",
+              "enum": ["adapter", "facade", "bridge", "mediator"]
+            }
+          },
+          "returns": {
+            "type": "object",
+            "properties": {
+              "glueCode": "string",
+              "usage": "string",
+              "tests": "string"
+            }
+          }
+        },
+        {
+          "name": "detect_integration_conflicts",
+          "description": "Detects conflicts when integrating modules",
+          "parameters": {
+            "modules": {
+              "type": "array",
+              "description": "Modules to check"
+            }
+          },
+          "returns": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "type": "string",
+                "severity": "string",
+                "description": "string",
+                "resolution": "string"
+              }
+            }
+          }
+        }
+      ],
+      "disabled": false,
+      "autoApprove": ["analyze_module_compatibility"]
+    }
+  },
+  "configuration": {
+    "theme": "spooky",
+    "logLevel": "info",
+    "enableSpookyLogging": true,
+    "resurrectionMode": "active"
+  },
+  "notes": {
+    "purpose": "These MCP extensions provide supernatural powers to Kiro for the Haunted Developer project",
+    "status": "Structural definition only - full implementation in future milestones",
+    "integration": "Will be used in Milestone 3 (Frankenstein) for stitching modules together"
+  }
+}
